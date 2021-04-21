@@ -1,5 +1,6 @@
 import React from "react";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
+import './App.css';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
@@ -9,15 +10,16 @@ import Login from '../Login/Login';
 
 function App() {
   return (
-    <div className="App">
+    <div className="app">
+        <Switch>
       <Route path="/signup">
         <Register/>
       </Route>
       <Route path="/signin">
         <Login/>
       </Route>
-      <Route path="/">
-        <Main/>
+      <Route exact path="/">
+          <Main/>
       </Route>
       <Route path="/movies">
         <Movies/>
@@ -28,6 +30,7 @@ function App() {
       <Route path="/profile">
         <Profile/>
       </Route>
+        </Switch>
     </div>
   );
 }
