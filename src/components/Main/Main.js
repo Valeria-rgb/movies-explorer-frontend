@@ -8,8 +8,8 @@ import Portfolio from '../Portfolio/Portfolio';
 function Main() {
     return(
         <section className="main">
-            <Promo/>
-            {/*<AboutProject/>*/}
+            {/*<Promo/>*/}
+            <AboutProject/>
             {/*<Techs/>*/}
             {/*<AboutMe/>*/}
             {/*<Portfolio/>*/}
