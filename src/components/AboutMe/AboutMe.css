@@ -1,0 +1,98 @@
+@media screen and (min-width: 300px) {
+  .about-me {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-me__header {
+    width: 91%;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: -0.04em;
+    margin: 70px auto 0;
+    text-align: left;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-me__line {
+    width: 91%;
+    height: 1px;
+    margin: 28px auto 0;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-me__photo {
+    width: 292px;
+    height: 352px;
+    border-radius: 10px;
+    margin: 60px auto 40px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-me__name {
+    width: 91%;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 30px;
+    line-height: 36px;
+    letter-spacing: -0.04em;
+    margin: 0 auto 20px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-me__job {
+    width: 91%;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 16px;
+    margin: 0 auto 20px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-me__description {
+    width: 91%;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 16px;
+    margin: 0 auto 40px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-me__links {
+    width: 91%;
+    margin: 0 auto 70px;
+    display: flex;
+    align-items: flex-start;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-me__link {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: black;
+    text-decoration: none;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-me__link:first-of-type {
+    margin-right: 26px;
+  }
+}
