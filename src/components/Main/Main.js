@@ -7,13 +7,13 @@ import Portfolio from '../Portfolio/Portfolio';
 
 function Main() {
     return(
-        <section className="main">
-            {/*<Promo/>*/}
+        <main className="main">
+            <Promo/>
             <AboutProject/>
-            {/*<Techs/>*/}
+            <Techs/>
             {/*<AboutMe/>*/}
             {/*<Portfolio/>*/}
-        </section>
+        </main>
     );
 }
 export default Main;

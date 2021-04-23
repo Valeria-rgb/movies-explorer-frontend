@@ -1,5 +1,5 @@
 import './AboutProject.css';
-import line from "../../images/about-project__line.svg";
+import line from "../../images/landing__line.svg";
 
 function AboutProject() {
     return(
@@ -7,16 +7,16 @@ function AboutProject() {
             <h4 className='about-project__heading'>О проекте</h4>
             <img className='about-project__line' src={line} alt='Декоративная линия'/>
             <div className='about-project__container'>
-            <h4 className='about-project__heading about-project__heading_stages'>
+                <h4 className='about-project__heading about-project__heading_stages'>
                 Дипломный проект включал 5 этапов</h4>
-            <p className='about-project__text about-project__text_stages'>
+                <p className='about-project__text about-project__text_stages'>
                 Составление плана, работу над бэкендом, вёрстку, добавление функциональности и финальные доработки.
-            </p>
-            <h4 className='about-project__heading about-project__heading_weeks'>
+                </p>
+                <h4 className='about-project__heading about-project__heading_weeks'>
                 На выполнение диплома ушло 5 недель</h4>
-            <p className='about-project__text about-project__text_weeks'>
+                <p className='about-project__text about-project__text_weeks'>
                 У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.
-            </p>
+               </p>
             </div>
             <div className='about-project__infographics'>
                 <div className='about-project__one-week'>
@@ -31,4 +31,5 @@ function AboutProject() {
         </section>
     );
 }
+
 export default AboutProject;

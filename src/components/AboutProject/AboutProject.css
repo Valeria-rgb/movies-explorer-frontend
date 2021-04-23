@@ -72,6 +72,8 @@
 @media screen and (min-width: 768px) {
   .about-project__container {
     display: grid;
+    margin: 0 auto;
+    align-self: center;
     grid-template-columns: 319px 319px;
     grid-template-rows: auto;
     gap: 30px;
