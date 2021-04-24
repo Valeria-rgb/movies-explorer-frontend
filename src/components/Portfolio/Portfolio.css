@@ -1,0 +1,24 @@
+@media screen and (min-width: 300px) {
+  .portfolio {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .portfolio__header {
+    width: 91%;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 20px;
+    color: #A0A0A0;
+    margin: 0 auto 40px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .portfolio__item {
+    width: 91%;
+    margin: 0 auto 19px;
+  }
+}
