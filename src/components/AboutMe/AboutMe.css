@@ -261,6 +261,13 @@
 }
 
 @media screen and (min-width: 300px) {
+  .about-me__link:hover {
+    opacity: 0.7;
+    transition: opacity .5s ease-out;
+  }
+}
+
+@media screen and (min-width: 300px) {
   .about-me__link:first-of-type {
     margin-right: 26px;
   }

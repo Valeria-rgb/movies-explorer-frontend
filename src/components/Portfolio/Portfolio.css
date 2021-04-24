@@ -117,6 +117,13 @@
   }
 }
 
+@media screen and (min-width: 300px) {
+  .portfolio__item-link:hover {
+    opacity: 0.7;
+    transition: opacity .5s ease-out;
+  }
+}
+
 @media screen and (min-width: 768px) {
   .portfolio__item-link {
     width: 16px;
