@@ -13,9 +13,7 @@ function Portfolio() {
                     <img className='portfolio__item-link' src={link} alt='Декоративная стрелка'/>
                 </a>
             </div>
-            <a href='https://github.com/Valeria-rgb/russian-travel'>
                 <img className='portfolio__line' src={line} alt='Декоративная линия'/>
-            </a>
             <div className='portfolio__item'>
                 <h4 className='portfolio__item-name'>Адаптивный сайт</h4>
                 <a href='https://github.com/Valeria-rgb/russian-travel'>
