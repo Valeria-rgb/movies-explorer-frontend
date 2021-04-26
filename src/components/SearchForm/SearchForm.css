@@ -25,7 +25,7 @@
 
 @media screen and (min-width: 768px) {
   .search-form__container {
-    width: 87%;
+    width: 92%;
     margin: 86px auto 0;
   }
 }
@@ -124,7 +124,7 @@
 
 @media screen and (min-width: 768px) {
   .search-form__line {
-    width: 87%;
+    width: 92%;
   }
 }
 
@@ -152,7 +152,7 @@
 
 @media screen and (min-width: 768px) {
   .search-form__short-film-container {
-    width: 87%;
+    width: 92%;
     margin: 29px auto 61px;
   }
 }

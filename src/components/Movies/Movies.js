@@ -6,10 +6,9 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 function Movies() {
     return(
         <main className="movies">
-            <SearchForm/>
-            <Preloader/>
-            {/*<MoviesCardList/>*/}
-            {/*<MoviesCard/>*/}
+            {/*<SearchForm/>*/}
+            {/*<Preloader/>*/}
+            <MoviesCardList/>
         </main>
     )
 }
