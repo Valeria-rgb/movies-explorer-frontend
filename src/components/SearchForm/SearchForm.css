@@ -115,6 +115,13 @@
 }
 
 @media screen and (min-width: 300px) {
+  .search-form__button:hover {
+    opacity: 0.8;
+    transition: opacity .5s ease-out;
+  }
+}
+
+@media screen and (min-width: 300px) {
   .search-form__line {
     width: 91%;
     height: 1px;

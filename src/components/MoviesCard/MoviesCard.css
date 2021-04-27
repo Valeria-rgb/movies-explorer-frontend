@@ -115,6 +115,13 @@
 }
 
 @media screen and (min-width: 300px) {
+  .movies-card__save-button:hover {
+    opacity: 0.8;
+    transition: opacity .5s ease-out;
+  }
+}
+
+@media screen and (min-width: 300px) {
   .movies-card__save-button_to-save {
     font-style: normal;
     font-weight: normal;
@@ -122,6 +129,7 @@
     line-height: 11px;
   }
 }
+
 
 @media screen and (min-width: 300px) {
   .movies-card__save-button_saved {
