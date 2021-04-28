@@ -1,8 +1,7 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import '../Register/Register.css'
 import icon from "../../images/student__icon.svg";
-import {Link} from "react-router-dom";
-
 
 function Register() {
     return(
