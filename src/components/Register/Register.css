@@ -101,7 +101,7 @@
 }
 
 @media screen and (min-width: 300px) {
-  .auth__input:last-of-type {
+  .auth__input_error {
     margin-bottom: 10px;
     color: #FF4062;
   }

@@ -16,12 +16,12 @@ function Register() {
                     <p className='auth__title' >E-mail</p>
                     <input className='auth__input' type='email'/>
                     <p className='auth__title'>Пароль</p>
-                    <input className='auth__input' type='password'/>
+                    <input className='auth__input auth__input_error' type='password'/>
                     <span className='auth__error'>Что-то пошло не так...</span>
                     <button className='auth__submit-button' type='submit'>Зарегистрироваться</button>
                     <div className='auth__link-container'>
                         <p className='auth__link-text auth__link-question'>Уже зарегистрированы?</p>
-                        <Link to='/signin' className='auth__link-text auth__link'> Войти</Link>
+                        <Link to='/signin' className='auth__link-text auth__link'>Войти</Link>
                     </div>
                 </form>
             </div>

@@ -1,0 +1,29 @@
+.login {
+  width: 100%;
+}
+
+@media screen and (min-width: 300px) {
+  .auth__submit-button_login {
+    margin: 257px auto 14px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .auth__submit-button_login {
+    margin: 169px auto 16px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .auth__link-container_login {
+    width: 246px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .auth__link-container_login {
+    width: 285px;
+  }
+}
+
+
