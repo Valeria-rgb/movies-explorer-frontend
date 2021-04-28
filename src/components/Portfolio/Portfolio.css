@@ -157,6 +157,7 @@
     width: 89%;
   }
 }
+
 @media screen and (min-width: 1280px) {
   .portfolio__line {
     width: 1140px;

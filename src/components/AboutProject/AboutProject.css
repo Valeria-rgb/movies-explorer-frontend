@@ -113,7 +113,9 @@
     margin: 70px 0 0;
     grid-area: header-stages;
   }
-}@media screen and (min-width: 1200px) {
+}
+
+@media screen and (min-width: 1200px) {
   .about-project__heading_stages {
     width: 550px;
   }
@@ -225,6 +227,7 @@
     height: 36px;
   }
 }
+
 @media screen and (min-width: 1200px) {
   .about-project__one-week {
     width: 228px;
@@ -275,6 +278,7 @@
     height: 36px;
   }
 }
+
 @media screen and (min-width: 1200px) {
   .about-project__four-weeks {
     width: 912px;

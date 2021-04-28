@@ -26,25 +26,35 @@
 }
 
 @media screen and (min-width: 300px) {
-  .profile__container {
+  .profile__form {
     width: 81%;
-    height: 30px;
     margin: 0 auto;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
   }
 }
 
 @media screen and (min-width: 768px) {
-  .profile__container {
+  .profile__form {
     width: 53%;
   }
 }
 
 @media screen and (min-width: 1200px) {
-  .profile__container {
+  .profile__form {
     width: 31%;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .profile__container {
+    width: 100%;
+    height: 30px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
   }
 }
 
@@ -120,21 +130,27 @@
 }
 
 @media screen and (min-width: 300px) {
-  .profile__button:last-of-type {
+  .profile__link {
+    font-style: normal;
     font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
     color: #FF4062;
     margin: 16px auto 40px;
+    text-decoration: none;
   }
 }
 
 @media screen and (min-width: 768px) {
-  .profile__button:last-of-type {
+  .profile__link {
+    font-size: 13px;
+    line-height: 16px;
     margin: 16px auto 269px;
   }
 }
 
 @media screen and (min-width: 1200px) {
-  .profile__button:last-of-type {
+  .profile__link {
     margin: 16px auto 70px;
   }
 }

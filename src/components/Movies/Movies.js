@@ -9,6 +9,6 @@ function Movies() {
             <Preloader/>
             <MoviesCardList/>
         </main>
-    )
+    );
 }
 export default Movies;

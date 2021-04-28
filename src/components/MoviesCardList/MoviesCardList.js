@@ -1,7 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
+import './MoviesCardList.css';
+
 
 function MoviesCardList() {
     const location = useLocation();
