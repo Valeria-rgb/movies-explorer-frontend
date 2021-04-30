@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, Link, NavLink } from 'react-router-dom';
+import { useLocation, NavLink } from 'react-router-dom';
 
 import '../Header/Header.css'
 import icon from "../../images/student__icon.svg";
@@ -31,10 +31,8 @@ function Header({ onMenuClick }) {
                     </nav>
                 </div>
             </header>
-
     );
 }
-
 export default Header;
 
 
