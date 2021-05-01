@@ -1,7 +1,9 @@
-import React from "react";
-import {Link} from "react-router-dom";
+// сейчас здесь виден header и footer, но этого не будет, когда будет реализован state loggedIn-setLoggedI
+
+import { Link } from "react-router-dom";
 import '../Register/Register.css'
 import '../Login/Login.css'
+
 import icon from "../../images/student__icon.svg";
 
 function Login() {

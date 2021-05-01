@@ -1,3 +1,5 @@
+// сейчас здесь виден header и footer, но этого не будет, когда будет реализован state loggedIn-setLoggedIn
+
 import React from "react";
 import {Link} from "react-router-dom";
 import '../Register/Register.css'

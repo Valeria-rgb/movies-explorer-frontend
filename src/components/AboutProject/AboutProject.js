@@ -25,8 +25,8 @@ function AboutProject() {
                 <div className='about-project__four-weeks'>
                     <p className='about-project__weeks-text about-project__weeks-text_four'>4 недели</p>
                 </div>
-                 <p className='about-project__backend'>Back-end</p>
-                 <p className='about-project__frontend'>Front-end</p>
+                <p className='about-project__backend'>Back-end</p>
+                <p className='about-project__frontend'>Front-end</p>
             </div>
         </section>
     );

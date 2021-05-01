@@ -15,8 +15,8 @@ function AboutMe() {
                      Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.
                 </p>
                 <div className='about-me__links'>
-                    <a className='about-me__link' href='https://www.facebook.com'>Facebook</a>
-                    <a className='about-me__link' href='https://github.com/Valeria-rgb'>Github</a>
+                    <a className='about-me__link' href='https://www.facebook.com' target='_blank'>Facebook</a>
+                    <a className='about-me__link' href='https://github.com/Valeria-rgb' target='_blank'>Github</a>
                 </div>
             </div>
         </section>

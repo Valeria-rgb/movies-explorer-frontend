@@ -98,6 +98,7 @@
     line-height: 18px;
   }
 }
+
 @media screen and (min-width: 1200px) {
   .header__link_active {
     font-style: normal;
