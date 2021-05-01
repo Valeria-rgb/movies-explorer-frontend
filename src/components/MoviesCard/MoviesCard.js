@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import './MoviesCard.css';
-import icon from "../../images/save__icon.svg";
+// import icon from "../../images/save__icon.svg";
 import image from "../../images/card__image.svg";
 import delete_icon from "../../images/delete__icon.svg";
 

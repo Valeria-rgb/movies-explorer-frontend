@@ -10,10 +10,10 @@ function Header({ onMenuClick }) {
     const currentPath = location.pathname;
 
     return(
-            <header className={currentPath === '/' ? 'header_pink' : 'header'}>
+            <header className={currentPath === '/' ? 'header header_pink' : 'header'}>
                 <div className={currentPath === '/' ? 'header__container' : 'header__container header__container_wide'}>
                     <img className='header__student-icon' src={icon} alt='Иконка студента'/>
-                    <button className={currentPath === '/' ? 'header__menu_invisible' : 'header__menu'} type='button' onClick={onMenuClick}/>
+                    <button className={currentPath === '/' ? 'header__menu_invisible' : 'header__menu'} onClick={onMenuClick}/>
                     <nav className={currentPath === '/' ? 'header__navigation_invisible' : 'header__navigation header__navigation_films'}>
                         <NavLink to='/movies' className={currentPath === '/movies' ? 'header__link_active' : 'header__link'}>Фильмы</NavLink>
                         <NavLink to='/saved-movies' className={currentPath === '/saved-movies' ? 'header__link_active' : 'header__link'}>Сохраненные фильмы</NavLink>
@@ -27,7 +27,9 @@ function Header({ onMenuClick }) {
                     </nav>
                     <nav className={currentPath === '/' ? 'header__navigation' : 'header__navigation_invisible'}>
                         <NavLink to='/signup' className='header__link'>Регистрация</NavLink>
-                        <button className='header__button' type='button'>Войти</button>
+                        <NavLink to='/signin'>
+                            <button className='header__button' type='button'>Войти</button>
+                        </NavLink>
                     </nav>
                 </div>
             </header>

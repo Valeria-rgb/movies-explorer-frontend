@@ -9,11 +9,24 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
+import AccountMenu from "../AccountMenu/AccountMenu";
 
 function App() {
+    const [isAccountMenuOpen, setIsAccountMenuOpen] = React.useState(false);
+
+    function handleAccountMenuClick() {
+        setIsAccountMenuOpen(!isAccountMenuOpen);
+    }
+
+    function closeAccountMenu() {
+        setIsAccountMenuOpen(false);
+    }
+
   return (
     <div className="app">
-        <Header/>
+        <Header
+            onMenuClick={handleAccountMenuClick}
+        />
         <Switch>
       <Route path="/signup">
         <Register/>
@@ -35,6 +48,9 @@ function App() {
       </Route>
         </Switch>
         <Footer/>
+        <AccountMenu
+            isOpen={isAccountMenuOpen}
+            onClose={closeAccountMenu}/>
     </div>
   );
 }
