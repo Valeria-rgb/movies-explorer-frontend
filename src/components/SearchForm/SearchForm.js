@@ -8,7 +8,7 @@ function SearchForm() {
             <form className='search-form__search-film'>
                 <div className='search-form__container'>
                     <img className='search-form__icon' src={icon} alt='Иконка лупы'/>
-                    <input className='search-form__input' name='film-name' placeholder='Фильм' type='text'/>
+                    <input className='search-form__input' name='film-name' placeholder='Фильм' type='text' required/>
                     <button className='search-form__button'>Найти</button>
                 </div>
                 <img className='search-form__line' src={line} alt='Декоративная линия'/>
