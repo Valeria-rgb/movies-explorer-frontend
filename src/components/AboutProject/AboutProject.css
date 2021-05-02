@@ -1,0 +1,344 @@
+@media screen and (min-width: 300px) {
+  .about-project {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    width: 89%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project {
+    width: 87%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .about-project {
+    width: 89%;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-project__heading {
+    width: 100%;
+    font-size: 18px;
+    line-height: 22px;
+    letter-spacing: -0.04em;
+    font-style: normal;
+    font-weight: 400;
+    text-align: left;
+    margin: 70px 0 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__heading {
+    width: 600px;
+    font-size: 22px;
+    line-height: 27px;
+    margin: 90px 0 0;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .about-project__heading {
+    margin: 110px 0 0;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .about-project__heading {
+    width: 1140px;
+    align-self: center;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-project__line {
+    width:100%;
+    height: 1px;
+    margin: 28px auto 0;
+    align-self: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__line {
+    margin: 23px auto 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__container {
+    display: grid;
+    margin: 0 auto;
+    align-self: center;
+    grid-template-columns: 319px 319px;
+    grid-template-rows: auto;
+    gap: 30px;
+    grid-template-areas:
+    "header-stages header-weeks"
+    "text-stages text-weeks";
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .about-project__container {
+    display: grid;
+    grid-template-columns: 550px 550px;
+    grid-template-rows: auto;
+    gap: 40px;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .about-project__container {
+    width: 1140px;
+    align-self: center;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-project__heading_stages {
+    margin: 60px 0 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__heading_stages {
+    font-size: 20px;
+    line-height: 24px;
+    width: 319px;
+    margin: 70px 0 0;
+    grid-area: header-stages;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .about-project__heading_stages {
+    width: 550px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-project__heading_weeks {
+    margin: 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__heading_weeks {
+    font-size: 20px;
+    line-height: 24px;
+    grid-area: header-weeks;
+    width: 319px;
+    margin: 70px 0 0;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .about-project__heading_weeks {
+    width: 550px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-project__text {
+    width: 100%;
+    font-size: 11px;
+    line-height: 16px;
+    font-style: normal;
+    font-weight: normal;
+    margin: 16px auto 56px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__text {
+    font-size: 12px;
+    line-height: 18px;
+    margin: 22px auto 93px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .about-project__text {
+    font-size: 14px;
+    line-height: 20px;
+    margin: 26px auto 110px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__text_stages {
+    grid-area: text-stages;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__text_weeks {
+    grid-area: text-weeks;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-project__infographics {
+    display: grid;
+    margin: 0 auto;
+    align-self: center;
+    grid-template-columns: 100px 184px;
+    grid-template-rows: 35px auto;
+    grid-template-areas:
+    "one-week four-weeks"
+    "backend frontend";
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__infographics {
+    grid-template-columns: 140px 528px;
+    grid-template-rows: 36px auto;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .about-project__infographics {
+    grid-template-columns: 228px 912px;
+    grid-template-rows: 36px auto;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-project__one-week {
+    grid-area: one-week;
+    width: 100px;
+    height: 35px;
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__one-week {
+    width: 140px;
+    height: 36px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .about-project__one-week {
+    width: 228px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-project__weeks-text {
+    color: white;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__weeks-text {
+    font-size: 14px;
+    line-height: 17px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-project__weeks-text_four {
+    color: black;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-project__four-weeks {
+    grid-area: four-weeks;
+    width: 184px;
+    height: 35px;
+    background-color: #F2F2F2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__four-weeks {
+    width: 528px;
+    height: 36px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .about-project__four-weeks {
+    width: 912px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-project__backend {
+    grid-area: backend;
+    width: 100px;
+    text-align: center;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    margin: 10px 0 70px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__backend {
+    width: 140px;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 14px 0 90px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .about-project__backend {
+    width: 228px;
+    margin: 14px 0 110px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .about-project__frontend {
+    grid-area: frontend;
+    width: 184px;
+    text-align: center;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    line-height: 13px;
+    margin: 10px 0 70px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .about-project__frontend {
+    width: 528px;
+    font-size: 14px;
+    line-height: 17px;
+    margin: 14px 0 90px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .about-project__frontend {
+    width: 912px;
+    margin: 14px 0 110px;
+  }
+}

@@ -1,0 +1,143 @@
+@media screen and (min-width: 300px) {
+  .account-menu {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    display: flex;
+    opacity: 0;
+    transition: visibility 1s ease, opacity 1s ease;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .account-menu {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .account-menu_opened {
+    display: flex;
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 1s ease;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .account-menu__container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .account-menu__container {
+    width: 68%;
+    position: absolute;
+    top: 0;
+    left: 32%;
+    background-color: white;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .account-menu__close-button {
+    width: 32px;
+    height: 32px;
+    background-image: url('../../images/account-menu_close-button.svg');
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    align-self: flex-end;
+    margin: 13px 13px 99px 0;
+    outline: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .account-menu__close-button {
+    margin: 22px 22px 105px 0;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .account-menu__link {
+    color: black;
+    text-decoration: none;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    margin-bottom: 24px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .account-menu__link {
+    margin-bottom: 28px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .account-menu__link_active {
+    border-bottom: solid 2px black;
+    padding-bottom: 7px;
+    margin-bottom: 15px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .account-menu__link_active {
+    padding-bottom: 4px;
+    margin-bottom: 22px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .account-menu__navigation {
+    width: 100px;
+    position: absolute;
+    left: auto;
+    bottom: 48px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .account-menu__navigation {
+    bottom: 92px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .header__link_account {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+  }
+}
+
+@media screen and (min-width: 300px) {
+  .account-menu__account-box {
+    width: 30px;
+    height: 30px;
+    background: #F9F9F9;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
