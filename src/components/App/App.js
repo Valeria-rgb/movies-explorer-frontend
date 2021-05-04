@@ -13,6 +13,7 @@ import AccountMenu from "../AccountMenu/AccountMenu";
 
 function App() {
     const [isAccountMenuOpen, setIsAccountMenuOpen] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
 
     function handleAccountMenuClick() {
         setIsAccountMenuOpen(!isAccountMenuOpen);
@@ -38,7 +39,9 @@ function App() {
           <Main/>
       </Route>
       <Route path="/movies">
-        <Movies/>
+        <Movies
+            isLoading={isLoading}
+        />
       </Route>
       <Route path="/saved-movies">
         <SavedMovies/>
