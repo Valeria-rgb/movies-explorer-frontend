@@ -5,7 +5,7 @@ class MoviesApi {
     }
 
     _fetch(headers) {
-        return fetch(`${this._url}`, headers)
+        return fetch(`${this.url}`, headers)
             .then((res) => {
                 if (res.ok) {
                     return res.json();
@@ -16,16 +16,16 @@ class MoviesApi {
 
     getMovies() {
         return this._fetch({
-            method: "GET",
+            method: 'GET',
             headers: this.headers
         })
     }
 }
 
 const moviesApi = new MoviesApi({
-    url: "https://api.nomoreparties.co/beatfilm-movies",
+    url: 'https://api.nomoreparties.co/beatfilm-movies',
     headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
     }
 });
 export default moviesApi;
