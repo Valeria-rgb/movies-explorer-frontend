@@ -32,14 +32,14 @@ class MainApi {
         })
     };
 
-    getMovies() {
+    getSavedMovies() {
         return this._fetch('movies', {
             method: 'GET',
             headers: this.headers,
         })
     };
 
-    postMovie(movie) {
+    saveMovie(movie) {
         return this._fetch('movies', {
             method: 'POST',
             headers: this.headers,

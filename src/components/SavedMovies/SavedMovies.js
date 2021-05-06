@@ -1,11 +1,13 @@
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function SavedMovies() {
+function SavedMovies({ movies }) {
     return(
         <section className="movies">
             <SearchForm/>
-            <MoviesCardList/>
+            <MoviesCardList
+            movies={movies}
+            />
         </section>
     );
 }

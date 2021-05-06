@@ -1,5 +1,5 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -9,11 +9,29 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
-import AccountMenu from "../AccountMenu/AccountMenu";
+import AccountMenu from '../AccountMenu/AccountMenu';
+import mainApi from '../../utils/MainApi';
+import moviesApi from '../../utils/MoviesApi';
 
 function App() {
     const [isAccountMenuOpen, setIsAccountMenuOpen] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(false);
+    // const [isLoading, setIsLoading] = React.useState(false);
+    const [movies, setMovies] = React.useState([]);
+    const [savedMovies, setSavedMovies] = React.useState([]);
+
+    React.useEffect(() => {
+        moviesApi.getMovies()
+            .then((movies) => {
+                setMovies(movies);
+            })
+    }, []);
+
+    React.useEffect(() => {
+        mainApi.getSavedMovies()
+            .then((movies) => {
+                setSavedMovies(movies);
+            })
+    }, []);
 
     function handleAccountMenuClick() {
         setIsAccountMenuOpen(!isAccountMenuOpen);
@@ -40,11 +58,13 @@ function App() {
       </Route>
       <Route path="/movies">
         <Movies
-            isLoading={isLoading}
+            movies={ movies }
         />
       </Route>
       <Route path="/saved-movies">
-        <SavedMovies/>
+        <SavedMovies
+            movies={ savedMovies }
+        />
       </Route>
       <Route path="/profile">
         <Profile/>
