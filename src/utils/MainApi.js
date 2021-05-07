@@ -66,14 +66,14 @@ class MainApi {
         })
     };
 
-    signUp(email, password, name) {
+    signUp(name, email, password) {
         return this._fetch('signup', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({email, password, name})
+            body: JSON.stringify({name, email, password})
         })
     };
 

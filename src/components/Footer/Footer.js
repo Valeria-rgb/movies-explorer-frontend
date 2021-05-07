@@ -13,9 +13,9 @@ function Footer() {
             <img className='footer__line' src={line} alt='Декоративная линия'/>
             <div className='footer__container'>
                 <div className='footer__links'>
-                    <a className='footer__link' href='https://praktikum.yandex.ru' target='_blank'>Яндекс.Практикум</a>
-                    <a className='footer__link' href='https://github.com' target='_blank'>Github</a>
-                    <a className='footer__link' href='https://www.facebook.com' target='_blank'>Facebook</a>
+                    <a className='footer__link' href='https://praktikum.yandex.ru' rel='noreferrer' target='_blank'>Яндекс.Практикум</a>
+                    <a className='footer__link' href='https://github.com' rel='noreferrer' target='_blank'>Github</a>
+                    <a className='footer__link' href='https://www.facebook.com' rel='noreferrer' target='_blank'>Facebook</a>
                 </div>
                 <p className="footer__copyright">&copy;{currentYear}</p>
             </div>

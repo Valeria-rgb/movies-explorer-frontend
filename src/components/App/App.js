@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import './App.css';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -12,12 +12,17 @@ import Login from '../Login/Login';
 import AccountMenu from '../AccountMenu/AccountMenu';
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function App() {
+    const [loggedIn, setLoggedIn] = React.useState(false);
+    const [currentUser, setCurrentUser] = React.useState({});
     const [isAccountMenuOpen, setIsAccountMenuOpen] = React.useState(false);
     // const [isLoading, setIsLoading] = React.useState(false);
     const [movies, setMovies] = React.useState([]);
     const [savedMovies, setSavedMovies] = React.useState([]);
+
+    const history = useHistory();
 
     React.useEffect(() => {
         moviesApi.getMovies()
@@ -41,14 +46,30 @@ function App() {
         setIsAccountMenuOpen(false);
     }
 
+    function handleRegister(name, email, password) {
+        mainApi.signUp(name, email, password)
+            .then((data) => {
+                setLoggedIn(true);
+                setCurrentUser({...data});
+                history.push('/movies');
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+
   return (
+      <CurrentUserContext.Provider value={currentUser}>
     <div className="app">
         <Header
             onMenuClick={handleAccountMenuClick}
         />
         <Switch>
       <Route path="/signup">
-        <Register/>
+        <Register
+            onRegister={handleRegister}
+        />
       </Route>
       <Route path="/signin">
         <Login/>
@@ -75,6 +96,7 @@ function App() {
             isOpen={isAccountMenuOpen}
             onClose={closeAccountMenu}/>
     </div>
+      </CurrentUserContext.Provider>
   );
 }
 
