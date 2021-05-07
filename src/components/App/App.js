@@ -21,7 +21,6 @@ function App() {
     // const [isLoading, setIsLoading] = React.useState(false);
     const [movies, setMovies] = React.useState([]);
     const [savedMovies, setSavedMovies] = React.useState([]);
-
     const history = useHistory();
 
     React.useEffect(() => {
@@ -46,24 +45,56 @@ function App() {
         setIsAccountMenuOpen(false);
     }
 
+    function tokenCheck() {
+        const token = localStorage.getItem('jwt');
+        if (token) {
+            setLoggedIn(true);
+            mainApi.getToken()
+                .then((userData) => {
+                    if (userData) {
+                        console.log(userData)
+                        setCurrentUser(userData);
+                        setLoggedIn(true);
+                        history.push('/movies');
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }}
+
     function handleRegister(name, email, password) {
         mainApi.signUp(name, email, password)
             .then((data) => {
                 setLoggedIn(true);
                 setCurrentUser({...data});
-                history.push('/movies');
+                history.push('/signin');
             })
             .catch((err) => {
                 console.log(err);
             });
     }
 
+    function handleLogIn(email, password) {
+        mainApi.signIn(email, password)
+            .then((data) => {
+                if (data.token) {
+                    setLoggedIn(true);
+                    tokenCheck()
+                    history.push("/movies");
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
   return (
       <CurrentUserContext.Provider value={currentUser}>
     <div className="app">
         <Header
             onMenuClick={handleAccountMenuClick}
+            loggedIn={loggedIn}
         />
         <Switch>
       <Route path="/signup">
@@ -72,7 +103,9 @@ function App() {
         />
       </Route>
       <Route path="/signin">
-        <Login/>
+        <Login
+            onLogin={handleLogIn}
+        />
       </Route>
       <Route exact path="/">
           <Main/>

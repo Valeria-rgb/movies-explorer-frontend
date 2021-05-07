@@ -33,7 +33,7 @@ function Register( { onRegister }) {
         if (!validEmail) {
             setEmailError('Введите верный адрес почты');
         } else if (e.target.value.length < 1) {
-            setNameError('Почта обязательна для заполнения');
+            setEmailError('Почта обязательна для заполнения');
         } else {
             setEmailError('');
         }
@@ -44,7 +44,7 @@ function Register( { onRegister }) {
         if (e.target.value.length < 6) {
             setPasswordError('Введите не менее 5 символов');
         } else if (e.target.value.length < 1) {
-            setNameError('Пароль обязателен для заполнения');
+            setPasswordError('Пароль обязателен для заполнения');
         } else {
             setPasswordError('');
         }

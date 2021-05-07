@@ -87,14 +87,14 @@ class MainApi {
             body: JSON.stringify({email, password})
         })
             .then((data) => {
-                const token = data.token;
-                if (token) {
-                    localStorage.setItem('jwt', token);
+                if (data.token) {
+                    localStorage.setItem('jwt', data.token);
                     return data;
                 }
             })
             .catch(err => console.log(err))
     };
+
 
     getToken(jwt) {
         return this._fetch('users/me', {
@@ -107,6 +107,7 @@ class MainApi {
             .catch((err) => console.log(err))
     }
 }
+
 
 const mainApi = new MainApi({
     url: 'https://my-diploma.nomoredomains.club/api/',
