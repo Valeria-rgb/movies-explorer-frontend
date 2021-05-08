@@ -14,6 +14,7 @@ import NotFoundWindow from '../NotFoundWindow/NotFoundWindow';
 import AccountMenu from '../AccountMenu/AccountMenu';
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
+import auth from '../../utils/auth';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 
@@ -27,8 +28,19 @@ function App() {
     const [savedMovies, setSavedMovies] = React.useState([]);
     const [savedSortedMovies, setSavedSortedMovies] = React.useState([]);
     const [query, setQuery] = React.useState('');
-
     const history = useHistory();
+
+    React.useEffect(() => {
+        let jwt = localStorage.getItem('jwt');
+        if (jwt) {
+            auth.getToken(jwt)
+                .then((data) => {
+                    setLoggedIn(true);
+                    history.push('/movies');
+                })
+                .catch((err) => console.log(`Упс!: ${err}`))
+        }
+    }, [history]);
 
     React.useEffect(() => {
         moviesApi.getMovies()
@@ -53,16 +65,15 @@ function App() {
     }
 
     function tokenCheck() {
-        const token = localStorage.getItem('jwt');
-        if (token) {
+        const jwt = localStorage.getItem("jwt");
+        if (jwt) {
             setLoggedIn(true);
-            mainApi.getToken()
-                .then((userData) => {
-                    if (userData) {
-                        console.log(userData)
-                        setCurrentUser(userData);
+            auth.getToken(jwt)
+                .then((data) => {
+                    if (data) {
+                        setCurrentUser(data)
                         setLoggedIn(true);
-                        history.push('/movies');
+                        // history.push('/movies');
                     }
                 })
                 .catch((err) => {
@@ -71,11 +82,11 @@ function App() {
         }}
 
     function handleRegister(name, email, password) {
-        mainApi.signUp(name, email, password)
+        auth.signUp(name, email, password)
             .then((data) => {
-                setLoggedIn(true);
-                setCurrentUser({...data});
-                history.push('/signin');
+                if (data) {
+                    history.push('/signin');
+                }
             })
             .catch((err) => {
                 console.log(err);
@@ -83,11 +94,11 @@ function App() {
     }
 
     function handleLogIn(email, password) {
-        mainApi.signIn(email, password)
+        auth.signIn(email, password)
             .then((data) => {
                 if (data.token) {
                     setLoggedIn(true);
-                    tokenCheck()
+                    tokenCheck();
                     history.push('/movies');
                 }
             })
@@ -105,23 +116,22 @@ function App() {
             .catch((err) => console.log(`Упс!: ${err}`));
     }
 
+
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className="app">
-                <Header
+                {loggedIn && <Header
                     onMenuClick={handleAccountMenuClick}
-                    loggedIn={loggedIn}/>
+                    loggedIn={loggedIn}/>}
                 <Switch>
-                    {!loggedIn &&
                     <Route path="/signup">
                         <Register
                             onRegister={handleRegister}/>
-                    </Route>}
-                    {!loggedIn &&
+                    </Route>
                     <Route path="/signin">
                         <Login
                             onLogin={handleLogIn}/>
-                    </Route>}
+                    </Route>
                     <Route exact path="/">
                         <Main/>
                     </Route>
@@ -140,9 +150,10 @@ function App() {
                         loggedIn={loggedIn}
                         component={Profile}
                         onEditProfile={handleUpdateProfile}/>
+                    {loggedIn &&
                     <Route path="/*">
-                        <NotFoundWindow/>
-                    </Route>
+                         <NotFoundWindow/>
+                    </Route>}
                 </Switch>
                 {loggedIn && <Footer/>}
                 {loggedIn &&

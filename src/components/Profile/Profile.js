@@ -1,8 +1,10 @@
 import React from "react";
 import {Link} from "react-router-dom";
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import '../Profile/Profile.css';
 
 function Profile({ onEditProfile }) {
+    const currentUser = React.useContext(CurrentUserContext);
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [nameError, setNameError] = React.useState("");
@@ -55,7 +57,7 @@ function Profile({ onEditProfile }) {
 
     return(
         <section className='profile'>
-            <h1 className='profile__greeting'>Привет, Виталий!</h1>
+            <h1 className='profile__greeting'>Привет, {name}!</h1>
             <form className='profile__form'
                   onSubmit={handleSubmit}>
                 <div className='profile__container'>
@@ -63,8 +65,10 @@ function Profile({ onEditProfile }) {
                     <input className={`profile__input ${nameError ? 'profile__input_error' : ''}`}
                            type='text'
                            name='name'
-                           value={name}
-                           onChange={handleChangeName}/>
+                           // value={name}
+                           defaultValue={currentUser.name}
+                           placeholder={currentUser.name}
+                           onChange={handleChangeName} required/>
                 </div>
                 <span className='auth__error profile__error'>{nameError}</span>
                 <div className='profile__container'>
@@ -72,11 +76,16 @@ function Profile({ onEditProfile }) {
                     <input className={`profile__input ${emailError ? 'profile__input_error' : ''}`}
                            type='email'
                            name='email'
-                           value={email}
-                           onChange={handleChangeEmail}/>
+                           defaultValue={currentUser.email}
+                           placeholder={currentUser.email}
+                           // value={email}
+                           onChange={handleChangeEmail} required/>
                 </div>
                 <span className='auth__error profile__error'>{emailError}</span>
-                <button className='profile__button' type='submit'>Редактировать</button>
+                <button className={`profile__button ${
+                    !formValid ? 'profile__button_disabled' : ''}`}
+                        type='submit'
+                        disabled={!formValid}>Редактировать</button>
                 <Link to='/signin' className='profile__link'>Выйти из аккаунта</Link>
             </form>
         </section>

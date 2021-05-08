@@ -65,49 +65,7 @@ class MainApi {
             headers: this.headers
         })
     };
-
-    signUp(name, email, password) {
-        return this._fetch('signup', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({name, email, password})
-        })
-    };
-
-    signIn(email, password) {
-        return this._fetch('signin', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({email, password})
-        })
-            .then((data) => {
-                if (data.token) {
-                    localStorage.setItem('jwt', data.token);
-                    return data;
-                }
-            })
-            .catch(err => console.log(err))
-    };
-
-
-    getToken(jwt) {
-        return this._fetch('users/me', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${jwt}`,
-                'Content-Type': 'application/json'
-            }
-        })
-            .catch((err) => console.log(err))
-    }
 }
-
 
 const mainApi = new MainApi({
     url: 'https://my-diploma.nomoredomains.club/api/',

@@ -58,8 +58,7 @@ function Login({ onLogin}) {
                 <img className='auth__student-icon' src={icon} alt='Иконка студента'/>
                 <h1 className='auth__greeting'>Рады видеть!</h1>
                 <form className='auth__form'
-                onSubmit={onLogin}
-                >
+                onSubmit={handleSubmit}>
                     <p className='auth__title' >E-mail</p>
                     <input className={`auth__input ${emailError ? 'auth__input_error' : ''}`}
                            type='email'
