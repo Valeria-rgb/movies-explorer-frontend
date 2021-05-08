@@ -16,11 +16,15 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function App() {
     const [loggedIn, setLoggedIn] = React.useState(false);
-    const [currentUser, setCurrentUser] = React.useState({});
+    const [currentUser, setCurrentUser] = React.useState({})
     const [isAccountMenuOpen, setIsAccountMenuOpen] = React.useState(false);
     // const [isLoading, setIsLoading] = React.useState(false);
     const [movies, setMovies] = React.useState([]);
+    const [sortedMovies, setSortedMovies] = React.useState([]);
     const [savedMovies, setSavedMovies] = React.useState([]);
+    const [savedSortedMovies, setSavedSortedMovies] = React.useState([]);
+    const [query, setQuery] = React.useState('');
+
     const history = useHistory();
 
     React.useEffect(() => {
@@ -81,7 +85,7 @@ function App() {
                 if (data.token) {
                     setLoggedIn(true);
                     tokenCheck()
-                    history.push("/movies");
+                    history.push('/movies');
                 }
             })
             .catch((err) => {
@@ -89,7 +93,17 @@ function App() {
             });
     }
 
-  return (
+    function handleUpdateProfile(data) {
+        mainApi.changeUserInfo(data)
+            .then(() => {
+                setCurrentUser({...currentUser, ...data});
+                history.push("/movies");
+            })
+            .catch((err) => console.log(`Упс!: ${err}`));
+    }
+
+
+    return (
       <CurrentUserContext.Provider value={currentUser}>
     <div className="app">
         <Header
@@ -112,16 +126,18 @@ function App() {
       </Route>
       <Route path="/movies">
         <Movies
-            movies={ movies }
+            movies={ sortedMovies }
         />
       </Route>
       <Route path="/saved-movies">
         <SavedMovies
-            movies={ savedMovies }
+            movies={ savedSortedMovies }
         />
       </Route>
       <Route path="/profile">
-        <Profile/>
+        <Profile
+            onEditProfile={ handleUpdateProfile }
+        />
       </Route>
         </Switch>
         <Footer/>
