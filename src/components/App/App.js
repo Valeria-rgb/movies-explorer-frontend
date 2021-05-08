@@ -45,16 +45,20 @@ function App() {
     React.useEffect(() => {
         moviesApi.getMovies()
             .then((movies) => {
+                localStorage.setItem('movies', movies);
                 setMovies(movies);
             })
+            .catch((err) => {
+                console.log(`Ошибка при загрузке фильмов: ${err.message}`)
+            });
     }, []);
 
-    React.useEffect(() => {
-        mainApi.getSavedMovies()
-            .then((movies) => {
-                setSavedMovies(movies);
-            })
-    }, []);
+    // React.useEffect(() => {
+    //     mainApi.getSavedMovies()
+    //         .then((movies) => {
+    //             setSavedMovies(movies);
+    //         })
+    // }, []);
 
     function handleAccountMenuClick() {
         setIsAccountMenuOpen(!isAccountMenuOpen);
@@ -116,6 +120,24 @@ function App() {
             .catch((err) => console.log(`Упс!: ${err}`));
     }
 
+    function searchMovies (keyword) {
+            const keywordLowerCase = keyword.toLowerCase();
+            const result = [];
+            movies.forEach((item) => {
+                    if ((item.nameRU.toLowerCase() &&
+                        item.nameRU.split('') &&
+                        item.nameRU.includes(keywordLowerCase))
+                        ||
+                        (item.nameEN.toLowerCase() &&
+                        item.nameEN.includes(keywordLowerCase))) {
+                        result.push(item);
+                    }
+                })
+            localStorage.setItem('keywordOfSearch', JSON.stringify(keyword));
+            localStorage.setItem('searchMoviesResult', JSON.stringify(result));
+            setSortedMovies(result);
+            console.log(result)
+        }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -139,7 +161,9 @@ function App() {
                         path="/movies"
                         loggedIn={loggedIn}
                         component={Movies}
-                        movies={ sortedMovies }/>
+                        movies={ sortedMovies }
+                        onSearch={searchMovies}
+                    />
                     <ProtectedRoute
                         path="/saved-movies"
                         loggedIn={loggedIn}
