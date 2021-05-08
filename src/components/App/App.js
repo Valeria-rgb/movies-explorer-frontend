@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import './App.css';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Main from '../Main/Main';
@@ -9,10 +10,12 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import Register from '../Register/Register';
 import Login from '../Login/Login';
+import NotFoundWindow from '../NotFoundWindow/NotFoundWindow';
 import AccountMenu from '../AccountMenu/AccountMenu';
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+
 
 function App() {
     const [loggedIn, setLoggedIn] = React.useState(false);
@@ -102,51 +105,53 @@ function App() {
             .catch((err) => console.log(`Упс!: ${err}`));
     }
 
-
     return (
-      <CurrentUserContext.Provider value={currentUser}>
-    <div className="app">
-        <Header
-            onMenuClick={handleAccountMenuClick}
-            loggedIn={loggedIn}
-        />
-        <Switch>
-      <Route path="/signup">
-        <Register
-            onRegister={handleRegister}
-        />
-      </Route>
-      <Route path="/signin">
-        <Login
-            onLogin={handleLogIn}
-        />
-      </Route>
-      <Route exact path="/">
-          <Main/>
-      </Route>
-      <Route path="/movies">
-        <Movies
-            movies={ sortedMovies }
-        />
-      </Route>
-      <Route path="/saved-movies">
-        <SavedMovies
-            movies={ savedSortedMovies }
-        />
-      </Route>
-      <Route path="/profile">
-        <Profile
-            onEditProfile={ handleUpdateProfile }
-        />
-      </Route>
-        </Switch>
-        <Footer/>
-        <AccountMenu
-            isOpen={isAccountMenuOpen}
-            onClose={closeAccountMenu}/>
-    </div>
-      </CurrentUserContext.Provider>
-  );
+        <CurrentUserContext.Provider value={currentUser}>
+            <div className="app">
+                <Header
+                    onMenuClick={handleAccountMenuClick}
+                    loggedIn={loggedIn}/>
+                <Switch>
+                    {!loggedIn &&
+                    <Route path="/signup">
+                        <Register
+                            onRegister={handleRegister}/>
+                    </Route>}
+                    {!loggedIn &&
+                    <Route path="/signin">
+                        <Login
+                            onLogin={handleLogIn}/>
+                    </Route>}
+                    <Route exact path="/">
+                        <Main/>
+                    </Route>
+                    <ProtectedRoute
+                        path="/movies"
+                        loggedIn={loggedIn}
+                        component={Movies}
+                        movies={ sortedMovies }/>
+                    <ProtectedRoute
+                        path="/saved-movies"
+                        loggedIn={loggedIn}
+                        component={SavedMovies}
+                        movies={ savedSortedMovies }/>
+                    <ProtectedRoute
+                        path="/profile"
+                        loggedIn={loggedIn}
+                        component={Profile}
+                        onEditProfile={handleUpdateProfile}/>
+                    <Route path="/*">
+                        <NotFoundWindow/>
+                    </Route>
+                </Switch>
+                {loggedIn && <Footer/>}
+                {loggedIn &&
+                <AccountMenu
+                    isOpen={isAccountMenuOpen}
+                    onClose={closeAccountMenu}/>}
+            </div>
+        </CurrentUserContext.Provider>
+    );
 }
 
 export default App;
