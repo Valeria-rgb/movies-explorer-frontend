@@ -85,6 +85,8 @@
   .movies-card__image {
     width: 300px;
     height: 168px;
+    object-fit: cover;
+    object-position: center;
   }
 }
 

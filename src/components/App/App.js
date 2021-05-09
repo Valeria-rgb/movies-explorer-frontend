@@ -124,13 +124,11 @@ function App() {
             const keywordLowerCase = keyword.toLowerCase();
             const result = [];
             movies.forEach((item) => {
-                    if ((item.nameRU !== null &&
-                        item.nameRU.toLowerCase() &&
-                        item.nameRU.includes(keywordLowerCase))
+                     if ((item.nameRU !== null &&
+                        item.nameRU.toLowerCase().includes(keywordLowerCase))
                         ||
                         (item.nameEN !== null &&
-                        item.nameEN.toLowerCase() &&
-                        item.nameEN.includes(keywordLowerCase))) {
+                        item.nameEN.toLowerCase().includes(keywordLowerCase))) {
                         result.push(item);
                     }
                 })
