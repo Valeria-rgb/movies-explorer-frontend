@@ -4,25 +4,19 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
 
-function MoviesCardList() {
+function MoviesCardList({movies}) {
     const location = useLocation();
     const currentPath = location.pathname;
 
     return(
         <section className='movies-card-list'>
             <ul className='movies-card-list__elements'>
-                <MoviesCard/>
-                <MoviesCard/>
-                <MoviesCard/>
-                <MoviesCard/>
-                <MoviesCard/>
-                <MoviesCard/>
-                <MoviesCard/>
-                <MoviesCard/>
-                <MoviesCard/>
-                <MoviesCard/>
-                <MoviesCard/>
-                <MoviesCard/>
+                {movies.map((movie) => (
+                    <MoviesCard
+                        movie={movie}
+                        key={movie.id}
+                    />
+                ))}
             </ul>
             {currentPath === "/movies" && (
             <button className='movies-card-list__load-button'>Ещё</button>)}

@@ -8,7 +8,7 @@ function Movies({ movies, onSearch }) {
             <SearchForm onSearch={onSearch}/>
             <Preloader/>
             <MoviesCardList
-            movies={ movies }/>
+            movies={movies}/>
         </main>
     );
 }
