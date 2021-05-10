@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-function MoviesCardList({movies}) {
+function MoviesCardList({movies, isLoading}) {
     const location = useLocation();
     const currentPath = location.pathname;
     const [amount, setAmount] = React.useState(12);
@@ -36,7 +36,7 @@ function MoviesCardList({movies}) {
     return(
         <section className='movies-card-list'>
             <ul className='movies-card-list__elements'>
-                {movies.slice(0, amount).map((movie) => (
+                {!isLoading && movies.slice(0, amount).map((movie) => (
                     <MoviesCard
                         movie={movie}
                         key={movie.id}

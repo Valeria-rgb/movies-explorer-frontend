@@ -22,7 +22,7 @@ function App() {
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [currentUser, setCurrentUser] = React.useState({})
     const [isAccountMenuOpen, setIsAccountMenuOpen] = React.useState(false);
-    // const [isLoading, setIsLoading] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
     const [movies, setMovies] = React.useState([]);
     const [sortedMovies, setSortedMovies] = React.useState([]);
     const [savedMovies, setSavedMovies] = React.useState([]);
@@ -120,23 +120,32 @@ function App() {
             .catch((err) => console.log(`Упс!: ${err}`));
     }
 
+    function showPreloader() {
+        setIsLoading(true);
+        setTimeout(async () => {
+            setIsLoading(false);
+        }, 600);
+    }
+
     function searchMovies (keyword) {
-            const keywordLowerCase = keyword.toLowerCase();
-            const result = [];
-            movies.forEach((item) => {
-                     if ((item.nameRU !== null &&
-                        item.nameRU.toLowerCase().includes(keywordLowerCase))
-                        ||
-                        (item.nameEN !== null &&
-                        item.nameEN.toLowerCase().includes(keywordLowerCase))) {
-                        result.push(item);
-                    }
-                })
-            localStorage.setItem('keywordOfSearch', JSON.stringify(keyword));
-            localStorage.setItem('searchMoviesResult', JSON.stringify(result));
-            setSortedMovies(result);
-            console.log(result)
+        showPreloader()
+        const keywordLowerCase = keyword.toLowerCase();
+        const result = [];
+        movies.forEach((item) => {
+            if ((item.nameRU !== null &&
+                item.nameRU.toLowerCase().includes(keywordLowerCase))
+                ||
+                (item.nameEN !== null &&
+                    item.nameEN.toLowerCase().includes(keywordLowerCase))) {
+                result.push(item);
+            }
+        })
+        localStorage.setItem('keywordOfSearch', JSON.stringify(keyword));
+        localStorage.setItem('searchMoviesResult', JSON.stringify(result));
+        setSortedMovies(result);
+        // console.log(result)
         }
+
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -159,10 +168,11 @@ function App() {
                     <ProtectedRoute
                         path="/movies"
                         loggedIn={loggedIn}
+                        isLoading={isLoading}
                         component={Movies}
                         movies={ sortedMovies }
                         onSearch={searchMovies}
-                    />
+                        setIsLoading={setIsLoading}/>
                     <ProtectedRoute
                         path="/saved-movies"
                         loggedIn={loggedIn}

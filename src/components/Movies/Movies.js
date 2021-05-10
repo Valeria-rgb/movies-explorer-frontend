@@ -2,13 +2,14 @@ import SearchForm from '../SearchForm/SearchForm';
 import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function Movies({ movies, onSearch }) {
+function Movies({ movies, onSearch, isLoading}) {
     return(
         <main className="movies">
             <SearchForm onSearch={onSearch}/>
-            <Preloader/>
+            {isLoading && <Preloader/>}
             <MoviesCardList
-            movies={movies}/>
+            movies={movies}
+            isLoading={isLoading}/>
         </main>
     );
 }
