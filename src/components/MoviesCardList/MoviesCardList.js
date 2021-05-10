@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-function MoviesCardList({movies, isLoading}) {
+function MoviesCardList({movies, isLoading, isNoResult}) {
     const location = useLocation();
     const currentPath = location.pathname;
     const [amount, setAmount] = React.useState(12);
@@ -43,8 +43,8 @@ function MoviesCardList({movies, isLoading}) {
                     />
                 ))}
             </ul>
-            {currentPath === "/movies" && (
-            <button className='movies-card-list__load-button' onClick={loadMoreBtn}>Ещё</button>)}
+            {currentPath === "/movies" && !isNoResult &&
+            (<button className='movies-card-list__load-button' onClick={loadMoreBtn}>Ещё</button>)}
             {currentPath === "/saved-movies" && (
             <div className='movies-card-list__saved-devider'/>)}
         </section>

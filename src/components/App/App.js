@@ -23,11 +23,11 @@ function App() {
     const [currentUser, setCurrentUser] = React.useState({})
     const [isAccountMenuOpen, setIsAccountMenuOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
+    const [isNoResult, setIsNoResult] = React.useState(false);
     const [movies, setMovies] = React.useState([]);
     const [sortedMovies, setSortedMovies] = React.useState([]);
     const [savedMovies, setSavedMovies] = React.useState([]);
     const [savedSortedMovies, setSavedSortedMovies] = React.useState([]);
-    const [query, setQuery] = React.useState('');
     const history = useHistory();
 
     React.useEffect(() => {
@@ -138,6 +138,10 @@ function App() {
                 (item.nameEN !== null &&
                     item.nameEN.toLowerCase().includes(keywordLowerCase))) {
                 result.push(item);
+                setIsNoResult(false);
+            }
+            else {
+                setIsNoResult(true);
             }
         })
         localStorage.setItem('keywordOfSearch', JSON.stringify(keyword));
@@ -172,7 +176,8 @@ function App() {
                         component={Movies}
                         movies={ sortedMovies }
                         onSearch={searchMovies}
-                        setIsLoading={setIsLoading}/>
+                        isNoResult={isNoResult}
+                    />
                     <ProtectedRoute
                         path="/saved-movies"
                         loggedIn={loggedIn}
