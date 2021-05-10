@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-function MoviesCardList({movies, isLoading, isNoResult}) {
+function MoviesCardList({movies, isBtnHidden}) {
     const location = useLocation();
     const currentPath = location.pathname;
     const [amount, setAmount] = React.useState(12);
@@ -36,14 +36,14 @@ function MoviesCardList({movies, isLoading, isNoResult}) {
     return(
         <section className='movies-card-list'>
             <ul className='movies-card-list__elements'>
-                {!isLoading && movies.slice(0, amount).map((movie) => (
+                {movies.slice(0, amount).map((movie) => (
                     <MoviesCard
                         movie={movie}
                         key={movie.id}
                     />
                 ))}
             </ul>
-            {currentPath === "/movies" && !isNoResult &&
+            {currentPath === "/movies" && !isBtnHidden &&
             (<button className='movies-card-list__load-button' onClick={loadMoreBtn}>Ещё</button>)}
             {currentPath === "/saved-movies" && (
             <div className='movies-card-list__saved-devider'/>)}

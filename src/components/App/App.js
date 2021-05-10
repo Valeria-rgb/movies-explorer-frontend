@@ -24,6 +24,7 @@ function App() {
     const [isAccountMenuOpen, setIsAccountMenuOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
     const [isNoResult, setIsNoResult] = React.useState(false);
+    const [isBtnHidden, setIsBtnHidden] = React.useState(false);
     const [movies, setMovies] = React.useState([]);
     const [sortedMovies, setSortedMovies] = React.useState([]);
     const [savedMovies, setSavedMovies] = React.useState([]);
@@ -47,6 +48,7 @@ function App() {
             .then((movies) => {
                 localStorage.setItem('movies', movies);
                 setMovies(movies);
+                setIsBtnHidden(true);
             })
             .catch((err) => {
                 console.log(`Ошибка при загрузке фильмов: ${err.message}`)
@@ -132,22 +134,23 @@ function App() {
         const keywordLowerCase = keyword.toLowerCase();
         const result = [];
         movies.forEach((item) => {
-            if ((item.nameRU !== null &&
-                item.nameRU.toLowerCase().includes(keywordLowerCase))
+            if ((item.nameRU !== null && item.nameRU.toLowerCase().includes(keywordLowerCase))
                 ||
                 (item.nameEN !== null &&
-                    item.nameEN.toLowerCase().includes(keywordLowerCase))) {
+                    item.nameEN.toLowerCase().includes(keywordLowerCase)))
+            {
                 result.push(item);
                 setIsNoResult(false);
+                setIsBtnHidden(false)
             }
-            else {
+            else  {
                 setIsNoResult(true);
             }
         })
         localStorage.setItem('keywordOfSearch', JSON.stringify(keyword));
         localStorage.setItem('searchMoviesResult', JSON.stringify(result));
         setSortedMovies(result);
-        // console.log(result)
+        console.log(result)
         }
 
 
@@ -177,6 +180,7 @@ function App() {
                         movies={ sortedMovies }
                         onSearch={searchMovies}
                         isNoResult={isNoResult}
+                        isBtnHidden={isBtnHidden}
                     />
                     <ProtectedRoute
                         path="/saved-movies"
