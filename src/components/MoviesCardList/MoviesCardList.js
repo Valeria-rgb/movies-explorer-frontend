@@ -8,11 +8,22 @@ function MoviesCardList({movies, isBtnHidden}) {
     const currentPath = location.pathname;
     const [amount, setAmount] = React.useState(12);
     const [loadMore,setLoadMore] = React.useState(3);
+    const [size, setSize] = React.useState([0, 0]);
+
 
     function getWidth() {
         const { innerWidth: width } = window;
         return width;
     };
+
+    React.useLayoutEffect(() => {
+        function updateSize() {
+            setSize([window.innerWidth, window.innerHeight]);
+        }
+        window.addEventListener('resize', updateSize);
+        updateSize();
+        return () => window.removeEventListener('resize', updateSize);
+    }, []);
 
     React.useEffect(() => {
         if (getWidth() > 1200) {
@@ -25,7 +36,7 @@ function MoviesCardList({movies, isBtnHidden}) {
             setAmount(5);
             setLoadMore(2);
         }
-    }, []);
+    }, [size]);
 
 
     function loadMoreBtn() {
@@ -43,7 +54,7 @@ function MoviesCardList({movies, isBtnHidden}) {
                     />
                 ))}
             </ul>
-            {currentPath === "/movies" && !isBtnHidden &&
+            {currentPath === "/movies" && !isBtnHidden && (movies.length - amount >= 2) &&
             (<button className='movies-card-list__load-button' onClick={loadMoreBtn}>Ещё</button>)}
             {currentPath === "/saved-movies" && (
             <div className='movies-card-list__saved-devider'/>)}

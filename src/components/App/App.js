@@ -140,17 +140,21 @@ function App() {
                     item.nameEN.toLowerCase().includes(keywordLowerCase)))
             {
                 result.push(item);
+                console.log(result)
                 setIsNoResult(false);
                 setIsBtnHidden(false)
+                setSortedMovies(result);
             }
-            else  {
+            else if (result.length < 1){
                 setIsNoResult(true);
+            }
+            else if (result.length >= 1 && result.length < 5){
+                setIsNoResult(false);
+                setIsBtnHidden(true);
             }
         })
         localStorage.setItem('keywordOfSearch', JSON.stringify(keyword));
         localStorage.setItem('searchMoviesResult', JSON.stringify(result));
-        setSortedMovies(result);
-        console.log(result)
         }
 
 

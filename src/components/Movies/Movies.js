@@ -9,9 +9,9 @@ function Movies({ movies, onSearch, isLoading, isNoResult, isBtnHidden}) {
             <SearchForm onSearch={onSearch}/>
             {isLoading && <Preloader/>}
             {isNoResult && !isLoading && <MovieNotFoundMessage/>}
-            {!isNoResult  && <MoviesCardList
+            <MoviesCardList
             movies={movies}
-            isBtnHidden={isBtnHidden}/>}
+            isBtnHidden={isBtnHidden}/>
         </main>
     );
 }
