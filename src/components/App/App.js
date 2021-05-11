@@ -25,10 +25,11 @@ function App() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [isNoResult, setIsNoResult] = React.useState(false);
     const [isBtnHidden, setIsBtnHidden] = React.useState(false);
+    const [isSaved, setIsSaved] = React.useState(false);
     const [movies, setMovies] = React.useState([]);
     const [sortedMovies, setSortedMovies] = React.useState([]);
-    const [savedMovies, setSavedMovies] = React.useState([]);
-    const [savedSortedMovies, setSavedSortedMovies] = React.useState([]);
+    // const [savedSortedMovies, setSavedSortedMovies] = React.useState([]);
+    const [userSavedMovies, setUserSavedMovies] = React.useState(false);
     const history = useHistory();
 
     React.useEffect(() => {
@@ -55,12 +56,13 @@ function App() {
             });
     }, []);
 
-    // React.useEffect(() => {
-    //     mainApi.getSavedMovies()
-    //         .then((movies) => {
-    //             setSavedMovies(movies);
-    //         })
-    // }, []);
+    React.useEffect(() => {
+        mainApi.getSavedMovies()
+            .then((movies) => {
+                setUserSavedMovies(movies);
+            })
+    }, []);
+
 
     function handleAccountMenuClick() {
         setIsAccountMenuOpen(!isAccountMenuOpen);
@@ -129,15 +131,6 @@ function App() {
         }, 600);
     }
 
-    // function checkKeyword(keyword) {
-    //     if (keyword === undefined) {
-    //         setIsNoKeyword(true);
-    //     } else {
-    //         setIsNoKeyword(false)
-    //         return keyword.toLowerCase();
-    //     };
-    // }
-
     function searchMovies (keyword) {
         showPreloader();
         const keywordLowerCase = keyword.toLowerCase();
@@ -152,17 +145,24 @@ function App() {
                 setIsNoResult(false);
                 setIsBtnHidden(false)
                 setSortedMovies(result);
+                localStorage.setItem('keywordOfSearch', JSON.stringify(keyword));
+                localStorage.setItem('searchMoviesResult', JSON.stringify(result));
             }
             else if (result.length < 1) {
                 setIsNoResult(true);
                 setSortedMovies([]);
             }
-
         })
-        localStorage.setItem('keywordOfSearch', JSON.stringify(keyword));
-        localStorage.setItem('searchMoviesResult', JSON.stringify(result));
-        }
+    }
 
+    function saveMovie(movie) {
+            mainApi.saveMovie(movie)
+                .then((newSavedMovie) => {
+                    setUserSavedMovies([...userSavedMovies, newSavedMovie]);
+                    setIsSaved(true);
+                })
+                .catch(err => console.log(`Ошибка: ${err.message}`))
+    }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -189,14 +189,18 @@ function App() {
                         component={Movies}
                         movies={ sortedMovies }
                         onSearch={searchMovies}
+                        onSave={saveMovie}
                         isNoResult={isNoResult}
                         isBtnHidden={isBtnHidden}
+                        isSaved={isSaved}
                     />
                     <ProtectedRoute
                         path="/saved-movies"
                         loggedIn={loggedIn}
                         component={SavedMovies}
-                        movies={ savedSortedMovies }/>
+                        movies={userSavedMovies}
+                        // onDelete={deleteMovie}
+                    />
                     <ProtectedRoute
                         path="/profile"
                         loggedIn={loggedIn}

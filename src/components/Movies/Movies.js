@@ -3,7 +3,7 @@ import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 
-function Movies({ movies, onSearch, isLoading, isNoResult, isBtnHidden}) {
+function Movies({ movies, onSearch, onSave, isLoading, isNoResult, isBtnHidden, isSaved}) {
     return(
         <main className="movies">
             <SearchForm onSearch={onSearch}
@@ -12,7 +12,9 @@ function Movies({ movies, onSearch, isLoading, isNoResult, isBtnHidden}) {
             {isLoading && <Preloader/>}
             <MoviesCardList
             movies={movies}
-            isBtnHidden={isBtnHidden}/>
+            onSave={onSave}
+            isBtnHidden={isBtnHidden}
+            isSaved={isSaved}/>
         </main>
     );
 }

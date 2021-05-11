@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-function MoviesCardList({movies, isBtnHidden}) {
+function MoviesCardList({movies, isBtnHidden, onSave, onDelete, isSaved}) {
     const location = useLocation();
     const currentPath = location.pathname;
     const [amount, setAmount] = React.useState(12);
@@ -51,6 +51,9 @@ function MoviesCardList({movies, isBtnHidden}) {
                     <MoviesCard
                         movie={movie}
                         key={movie.id}
+                        onSave={onSave}
+                        // onDelete={onDelete}
+                        isSaved={isSaved}
                     />
                 ))}
             </ul>

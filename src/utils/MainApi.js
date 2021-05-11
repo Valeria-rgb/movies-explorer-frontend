@@ -54,7 +54,7 @@ class MainApi {
                 nameRU: movie.nameRU,
                 nameEN: movie.nameEN,
                 thumbnail: movie.thumbnail,
-                movieId: movie.movieId
+                movieId: movie.id
             })
         })
     };
