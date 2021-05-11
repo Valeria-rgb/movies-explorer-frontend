@@ -11,10 +11,11 @@ import { baseImageURL } from '../../utils/constants';
 function MoviesCard({movie}) {
     const location = useLocation();
     const currentPath = location.pathname;
+    const [isSaved, setIsSaved] = React.useState(false);
 
     function getImage() {
         if (movie.image === null) {
-            return image;
+            return image
         } else {
                 return baseImageURL + movie.image.url;
             }

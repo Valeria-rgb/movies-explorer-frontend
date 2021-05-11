@@ -3,8 +3,9 @@ import './SearchForm.css';
 import line from "../../images/portfolio__line.svg";
 import icon from "../../images/search__icon.svg";
 
-function SearchForm({ onSearch }) {
+function SearchForm({ onSearch, isNoResult, isLoading }) {
     const [movieName, setMovieName] = React.useState([]);
+    const [isError, setIsError] = React.useState(false);
 
     function handleSearchableMovieChange(e) {
         setMovieName(e.target.value);
@@ -12,14 +13,20 @@ function SearchForm({ onSearch }) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        onSearch(movieName);
+
+        if ((movieName.length > 0)) {
+            setIsError(false);
+            onSearch(movieName);
+        } else {
+        setIsError(true);
+        }
     }
 
     return(
         <section className='search-form'>
             <form
                 onSubmit={handleSubmit}
-                className='search-form__search-film'>
+                className='search-form__search-film' noValidate>
                 <div className='search-form__container'>
                     <img className='search-form__icon' src={icon} alt='Иконка лупы'/>
                     <input
@@ -32,6 +39,8 @@ function SearchForm({ onSearch }) {
                     <input className='search-form__checkbox' type='checkbox'/>
                     <p className='search-form__checkbox-name'>Короткометражки</p>
                 </div>
+                {isError && isNoResult && <span className='search-form__message'>Нужно ввести ключевое слово &#128521;</span>}
+                {isNoResult && !isLoading && !isError && <span className='search-form__message'>Ничего не найдено &#128543;</span>}
             </form>
         </section>
     );

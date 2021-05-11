@@ -129,29 +129,35 @@ function App() {
         }, 600);
     }
 
+    // function checkKeyword(keyword) {
+    //     if (keyword === undefined) {
+    //         setIsNoKeyword(true);
+    //     } else {
+    //         setIsNoKeyword(false)
+    //         return keyword.toLowerCase();
+    //     };
+    // }
+
     function searchMovies (keyword) {
-        showPreloader()
+        showPreloader();
         const keywordLowerCase = keyword.toLowerCase();
         const result = [];
         movies.forEach((item) => {
             if ((item.nameRU !== null && item.nameRU.toLowerCase().includes(keywordLowerCase))
                 ||
                 (item.nameEN !== null &&
-                    item.nameEN.toLowerCase().includes(keywordLowerCase)))
-            {
+                    item.nameEN.toLowerCase().includes(keywordLowerCase))) {
                 result.push(item);
                 console.log(result)
                 setIsNoResult(false);
                 setIsBtnHidden(false)
                 setSortedMovies(result);
             }
-            else if (result.length < 1){
+            else if (result.length < 1) {
                 setIsNoResult(true);
+                setSortedMovies([]);
             }
-            else if (result.length >= 1 && result.length < 5){
-                setIsNoResult(false);
-                setIsBtnHidden(true);
-            }
+
         })
         localStorage.setItem('keywordOfSearch', JSON.stringify(keyword));
         localStorage.setItem('searchMoviesResult', JSON.stringify(result));
