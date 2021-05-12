@@ -41,7 +41,7 @@ function Profile({ onEditProfile }) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        onEditProfile(name, email);
+        onEditProfile({name,email});
     }
 
     React.useEffect(() => {
@@ -57,7 +57,7 @@ function Profile({ onEditProfile }) {
 
     return(
         <section className='profile'>
-            <h1 className='profile__greeting'>Привет, {name}!</h1>
+            <h1 className='profile__greeting'>Привет, {currentUser.name}!</h1>
             <form className='profile__form'
                   onSubmit={handleSubmit}>
                 <div className='profile__container'>
@@ -65,10 +65,10 @@ function Profile({ onEditProfile }) {
                     <input className={`profile__input ${nameError ? 'profile__input_error' : ''}`}
                            type='text'
                            name='name'
-                           // value={name}
-                           defaultValue={currentUser.name}
+                           value={name}
+                           // defaultValue={currentUser.name}
                            placeholder={currentUser.name}
-                           onChange={handleChangeName} required/>
+                           onChange={handleChangeName}/>
                 </div>
                 <span className='auth__error profile__error'>{nameError}</span>
                 <div className='profile__container'>
@@ -76,9 +76,9 @@ function Profile({ onEditProfile }) {
                     <input className={`profile__input ${emailError ? 'profile__input_error' : ''}`}
                            type='email'
                            name='email'
-                           defaultValue={currentUser.email}
+                           // defaultValue={currentUser.email}
                            placeholder={currentUser.email}
-                           // value={email}
+                           value={email}
                            onChange={handleChangeEmail} required/>
                 </div>
                 <span className='auth__error profile__error'>{emailError}</span>

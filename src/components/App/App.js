@@ -18,6 +18,7 @@ import auth from '../../utils/auth';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 
+
 function App() {
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [currentUser, setCurrentUser] = React.useState({})
@@ -28,8 +29,8 @@ function App() {
     const [isSaved, setIsSaved] = React.useState(false);
     const [movies, setMovies] = React.useState([]);
     const [sortedMovies, setSortedMovies] = React.useState([]);
-    // const [savedSortedMovies, setSavedSortedMovies] = React.useState([]);
     const [userSavedMovies, setUserSavedMovies] = React.useState(false);
+    const [shortMovie, setShortMovie] = React.useState(false);
     const history = useHistory();
 
     React.useEffect(() => {
@@ -93,6 +94,7 @@ function App() {
         auth.signUp(name, email, password)
             .then((data) => {
                 if (data) {
+                    setCurrentUser({...currentUser, ...data})
                     history.push('/signin');
                 }
             })
@@ -131,6 +133,18 @@ function App() {
         }, 600);
     }
 
+    function handleCheckBox() {
+        setShortMovie(!shortMovie);
+    }
+
+    function filterShortMovies(sortedMovies) {
+        if (sortedMovies.length !== 0 || sortedMovies !== 'undefined') {
+            return sortedMovies.filter((movie) =>
+                shortMovie ? movie.duration <= 40: true
+            )
+        }
+    }
+
     function searchMovies (keyword) {
         showPreloader();
         const keywordLowerCase = keyword.toLowerCase();
@@ -141,7 +155,6 @@ function App() {
                 (item.nameEN !== null &&
                     item.nameEN.toLowerCase().includes(keywordLowerCase))) {
                 result.push(item);
-                console.log(result)
                 setIsNoResult(false);
                 setIsBtnHidden(false)
                 setSortedMovies(result);
@@ -155,6 +168,29 @@ function App() {
         })
     }
 
+    function searchSavedMovies(keyword) {
+        showPreloader();
+        const keywordLowerCase = keyword.toLowerCase();
+        const result = [];
+        userSavedMovies.forEach((item) => {
+            if ((item.nameRU !== null && item.nameRU.toLowerCase().includes(keywordLowerCase))
+                ||
+                (item.nameEN !== null &&
+                    item.nameEN.toLowerCase().includes(keywordLowerCase))) {
+                result.push(item);
+                setIsNoResult(false);
+                setIsBtnHidden(false)
+                setUserSavedMovies(result);
+                localStorage.setItem('keywordOfSearchInSaved', JSON.stringify(keyword));
+                localStorage.setItem('searchInSavedMoviesResult', JSON.stringify(result));
+            }
+            else if (result.length < 1) {
+                setIsNoResult(true);
+                setUserSavedMovies([]);
+            }
+        })
+    }
+
     function saveMovie(movie) {
             mainApi.saveMovie(movie)
                 .then((newSavedMovie) => {
@@ -163,6 +199,22 @@ function App() {
                 })
                 .catch(err => console.log(`Ошибка: ${err.message}`))
     }
+
+    function deleteMovie (movie) {
+        const movieId = movie.id || movie.movieId;
+        const selectedMovie = userSavedMovies.find((item) => item.movieId === movieId);
+        mainApi.deleteMovie({_id: selectedMovie._id})
+            .then((deletedMovie) => {
+                if (!deletedMovie) {
+                    throw new Error("При удалении фильма произошла ошибка");
+                } else {
+                    const newMoviesList = userSavedMovies.filter((c) => c.movieId !== movieId);
+                    setUserSavedMovies(newMoviesList);
+                }
+            })
+            .catch((err) => console.log(`При удалении фильма: ${err}`));
+    }
+
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -187,9 +239,12 @@ function App() {
                         loggedIn={loggedIn}
                         isLoading={isLoading}
                         component={Movies}
-                        movies={ sortedMovies }
+                        movies={ filterShortMovies(sortedMovies) }
                         onSearch={searchMovies}
+                        onFilter={handleCheckBox}
+                        isShortMovie={shortMovie}
                         onSave={saveMovie}
+                        onDelete={deleteMovie}
                         isNoResult={isNoResult}
                         isBtnHidden={isBtnHidden}
                         isSaved={isSaved}
@@ -198,8 +253,11 @@ function App() {
                         path="/saved-movies"
                         loggedIn={loggedIn}
                         component={SavedMovies}
+                        onSearch={searchSavedMovies}
+                        isNoResult={isNoResult}
+                        isLoading={isLoading}
                         movies={userSavedMovies}
-                        // onDelete={deleteMovie}
+                        onDelete={deleteMovie}
                     />
                     <ProtectedRoute
                         path="/profile"

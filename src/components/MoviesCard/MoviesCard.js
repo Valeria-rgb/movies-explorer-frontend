@@ -38,9 +38,14 @@ function MoviesCard({movie, onSave, onDelete, isSaved}) {
     }
 
 
-    function unsaveMovie() {
+    function deleteMovie() {
+        onDelete(movie)
         setIsBtnSave(false);
     }
+    // function unsaveMovie() {
+    //     onUnsave(movie)
+    //     setIsBtnSave(false);
+    // }
 
     return(
         <li className='movies-card'>
@@ -48,16 +53,17 @@ function MoviesCard({movie, onSave, onDelete, isSaved}) {
                 <h2 className='movies-card__name'>{movie.nameRU}</h2>
                 <p className='movies-card__timing'>{movie.duration} мин</p>
             </div>
-            <img className='movies-card__image' src={getImage()} alt={movie.nameRU}/>
+            {currentPath === "/movies" && <img className='movies-card__image' src={getImage()} alt={movie.nameRU}/>}
+            {currentPath === "/saved-movies" && <img className='movies-card__image' src={movie.image} alt={movie.nameRU}/>}
             {currentPath === "/movies" && !isBtnSave && (
                 <button className='movies-card__save-button movies-card__save-button_to-save' onClick={saveMovie}>Сохранить
                 </button>)}
             {currentPath === "/movies" && isBtnSave && isSaved && (
-            <button className='movies-card__save-button movies-card__save-button_saved' onClick={unsaveMovie}>
+            <button className='movies-card__save-button movies-card__save-button_saved' onClick={deleteMovie}>
                 <img className='movies-card__save-icon' src={icon} alt='Иконка сохранения'/>
             </button>)}
             {currentPath === "/saved-movies" && (
-                <button className='movies-card__save-button movies-card__save-button_delete'>
+                <button className='movies-card__save-button movies-card__save-button_delete' onClick={deleteMovie}>
                 <img className='movies-card__delete-icon' src={delete_icon} alt='Иконка удаления'/>
             </button>)}
         </li>
