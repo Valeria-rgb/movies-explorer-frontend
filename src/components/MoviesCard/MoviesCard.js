@@ -37,7 +37,6 @@ function MoviesCard({movie, onSave, onDelete, movieWasSaved}) {
         setIsBtnSave(true);
     }
 
-
     function deleteMovie() {
         onDelete(movie)
         setIsBtnSave(false);

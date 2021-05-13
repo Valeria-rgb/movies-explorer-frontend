@@ -6,11 +6,12 @@ import React from "react";
 function SavedMovies({movies, onDelete, onSearch, isNoResult, isLoading, onFilter, isShortMovie, movieWasSaved }) {
     return(
         <section className="movies">
-            <SearchForm onSearch={onSearch}
-                        isNoResult={isNoResult}
-                        isLoading={isLoading}
-                        isShortMovie={isShortMovie}
-                        onFilter={onFilter}/>
+            <SearchForm
+                onSearch={onSearch}
+                isNoResult={isNoResult}
+                isLoading={isLoading}
+                isShortMovie={isShortMovie}
+                onFilter={onFilter}/>
             {isLoading && <Preloader/>}
             <MoviesCardList
                 movies={movies}

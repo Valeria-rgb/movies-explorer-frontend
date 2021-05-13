@@ -10,7 +10,6 @@ function MoviesCardList({movies, isBtnHidden, onSave, onDelete, movieWasSaved}) 
     const [loadMore,setLoadMore] = React.useState(3);
     const [size, setSize] = React.useState([0, 0]);
 
-
     function getWidth() {
         const { innerWidth: width } = window;
         return width;
@@ -38,7 +37,6 @@ function MoviesCardList({movies, isBtnHidden, onSave, onDelete, movieWasSaved}) 
         }
     }, [size]);
 
-
     function loadMoreBtn() {
         return setAmount(amount + loadMore);
     }
@@ -55,8 +53,7 @@ function MoviesCardList({movies, isBtnHidden, onSave, onDelete, movieWasSaved}) 
                         duration={movie.duration}
                         onSave={onSave}
                         onDelete={onDelete}
-                        movieWasSaved={movieWasSaved}
-                    />
+                        movieWasSaved={movieWasSaved}/>
                 ))}
             </ul>
             {currentPath === "/movies" && !isBtnHidden && (movies.length - amount >= 2) &&
