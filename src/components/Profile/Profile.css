@@ -140,6 +140,9 @@
 
 @media screen and (min-width: 300px) {
   .profile__link {
+    border: 0;
+    padding: 0;
+    outline: none;
     font-style: normal;
     font-weight: 500;
     font-size: 12px;

@@ -2,10 +2,8 @@ import React from 'react';
 import SearchForm from '../SearchForm/SearchForm';
 import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
-
-function Movies({ movies, onSearch, onSave, onDelete, isLoading, isNoResult, isBtnHidden, isSaved, onFilter, isShortMovie }) {
+function Movies({ movies, onSearch, onSave, onDelete, isLoading, isNoResult, isBtnHidden, movieWasSaved, onFilter, isShortMovie }) {
 
     return(
         <main className="movies">
@@ -20,9 +18,9 @@ function Movies({ movies, onSearch, onSave, onDelete, isLoading, isNoResult, isB
             <MoviesCardList
             movies={movies}
             onSave={onSave}
-            oDelete={onDelete}
+            onDelete={onDelete}
             isBtnHidden={isBtnHidden}
-            isSaved={isSaved}/>
+            movieWasSaved={movieWasSaved}/>
         </main>
     );
 }

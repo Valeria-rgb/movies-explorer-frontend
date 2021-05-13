@@ -1,15 +1,14 @@
 import React from "react";
-import {Link} from "react-router-dom";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import '../Profile/Profile.css';
 
-function Profile({ onEditProfile }) {
-    const currentUser = React.useContext(CurrentUserContext);
+function Profile({ onEditProfile, onSignOut }) {
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [nameError, setNameError] = React.useState("");
     const [emailError, setEmailError] = React.useState("");
     const [formValid, setFormValid] = React.useState(false);
+    const currentUser = React.useContext(CurrentUserContext);
 
     function handleChangeName(e) {
         const validName =/^[а-яА-ЯёЁa-zA-Z- ]+$/.test(e.target.value);
@@ -66,7 +65,6 @@ function Profile({ onEditProfile }) {
                            type='text'
                            name='name'
                            value={name}
-                           // defaultValue={currentUser.name}
                            placeholder={currentUser.name}
                            onChange={handleChangeName}/>
                 </div>
@@ -76,7 +74,6 @@ function Profile({ onEditProfile }) {
                     <input className={`profile__input ${emailError ? 'profile__input_error' : ''}`}
                            type='email'
                            name='email'
-                           // defaultValue={currentUser.email}
                            placeholder={currentUser.email}
                            value={email}
                            onChange={handleChangeEmail} required/>
@@ -86,7 +83,7 @@ function Profile({ onEditProfile }) {
                     !formValid ? 'profile__button_disabled' : ''}`}
                         type='submit'
                         disabled={!formValid}>Редактировать</button>
-                <Link to='/signin' className='profile__link'>Выйти из аккаунта</Link>
+                <button className='profile__link' onClick={onSignOut}>Выйти из аккаунта</button>
             </form>
         </section>
     );

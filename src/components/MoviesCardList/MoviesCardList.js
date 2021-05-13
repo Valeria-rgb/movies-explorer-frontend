@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
 
-function MoviesCardList({movies, savedMovies, isBtnHidden, onSave, onDelete, isSaved}) {
+function MoviesCardList({movies, isBtnHidden, onSave, onDelete, movieWasSaved}) {
     const location = useLocation();
     const currentPath = location.pathname;
     const [amount, setAmount] = React.useState(12);
@@ -14,7 +14,7 @@ function MoviesCardList({movies, savedMovies, isBtnHidden, onSave, onDelete, isS
     function getWidth() {
         const { innerWidth: width } = window;
         return width;
-    };
+    }
 
     React.useLayoutEffect(() => {
         function updateSize() {
@@ -41,20 +41,21 @@ function MoviesCardList({movies, savedMovies, isBtnHidden, onSave, onDelete, isS
 
     function loadMoreBtn() {
         return setAmount(amount + loadMore);
-    };
-
+    }
 
     return(
         <section className='movies-card-list'>
             <ul className='movies-card-list__elements'>
-                {movies.slice(0, amount).map((movie) => (
+                {movies.slice(0, amount)
+                    .map((movie) => (
                     <MoviesCard
                         movie={movie}
+                        name={movie.nameRU}
                         key={movie.id}
                         duration={movie.duration}
                         onSave={onSave}
                         onDelete={onDelete}
-                        isSaved={isSaved}
+                        movieWasSaved={movieWasSaved}
                     />
                 ))}
             </ul>

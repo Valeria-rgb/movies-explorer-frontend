@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import {Route, Switch, useHistory, useLocation} from 'react-router-dom';
 import './App.css';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Header from '../Header/Header';
@@ -15,35 +15,35 @@ import AccountMenu from '../AccountMenu/AccountMenu';
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
 import auth from '../../utils/auth';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-
-
+import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 
 function App() {
+    const location = useLocation();
+    const currentPath = location.pathname;
+    const history = useHistory();
     const [loggedIn, setLoggedIn] = React.useState(false);
     const [currentUser, setCurrentUser] = React.useState({})
     const [isAccountMenuOpen, setIsAccountMenuOpen] = React.useState(false);
     const [isLoading, setIsLoading] = React.useState(false);
     const [isNoResult, setIsNoResult] = React.useState(false);
     const [isBtnHidden, setIsBtnHidden] = React.useState(false);
-    const [isSaved, setIsSaved] = React.useState(false);
     const [movies, setMovies] = React.useState([]);
     const [sortedMovies, setSortedMovies] = React.useState([]);
-    const [userSavedMovies, setUserSavedMovies] = React.useState(false);
+    const [userSavedMovies, setUserSavedMovies] = React.useState([]);
     const [shortMovie, setShortMovie] = React.useState(false);
-    const history = useHistory();
 
     React.useEffect(() => {
-        let jwt = localStorage.getItem('jwt');
+        const jwt = localStorage.getItem('jwt');
         if (jwt) {
             auth.getToken(jwt)
-                .then((data) => {
+                .then(() => {
                     setLoggedIn(true);
                     history.push('/movies');
                 })
                 .catch((err) => console.log(`Упс!: ${err}`))
         }
     }, [history]);
+
 
     React.useEffect(() => {
         moviesApi.getMovies()
@@ -59,11 +59,23 @@ function App() {
 
     React.useEffect(() => {
         mainApi.getSavedMovies()
-            .then((movies) => {
-                setUserSavedMovies(movies);
+            .then(() => {
+                const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+                if (savedMovies) {
+                    setUserSavedMovies(savedMovies);
+                }
             })
+            .catch((err) => {
+                console.log(`Ошибка при загрузке сохраненных фильмов: ${err.message}`)
+            });
     }, []);
 
+    React.useEffect(() => {
+        mainApi.getUserInfo()
+            .then((data) => {
+                setCurrentUser(data);
+            })
+    }, []);
 
     function handleAccountMenuClick() {
         setIsAccountMenuOpen(!isAccountMenuOpen);
@@ -82,13 +94,13 @@ function App() {
                     if (data) {
                         setCurrentUser(data)
                         setLoggedIn(true);
-                        // history.push('/movies');
                     }
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.log(`Ошибка при проверке токена: ${err.message}`)
                 });
-        }}
+        }
+    }
 
     function handleRegister(name, email, password) {
         auth.signUp(name, email, password)
@@ -99,7 +111,7 @@ function App() {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.log(`Ошибка при регистрации: ${err.message}`)
             });
     }
 
@@ -113,8 +125,16 @@ function App() {
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.log(`Ошибка при логировании: ${err.message}`)
             });
+    }
+
+    function signOut() {
+        localStorage.removeItem('jwt');
+        localStorage.removeItem('movies');
+        localStorage.removeItem('savedMovies');
+        setLoggedIn(false);
+        history.push('/');
     }
 
     function handleUpdateProfile(data) {
@@ -123,7 +143,9 @@ function App() {
                 setCurrentUser({...currentUser, ...data});
                 history.push("/movies");
             })
-            .catch((err) => console.log(`Упс!: ${err}`));
+            .catch((err) => {
+                console.log(`Ошибка при редактировании профиля: ${err.message}`)
+            });
     }
 
     function showPreloader() {
@@ -140,12 +162,12 @@ function App() {
     function filterShortMovies(sortedMovies) {
         if (sortedMovies.length !== 0 || sortedMovies !== 'undefined') {
             return sortedMovies.filter((movie) =>
-                shortMovie ? movie.duration <= 40: true
+                shortMovie ? movie.duration <= 40 : true
             )
         }
     }
 
-    function searchMovies (keyword) {
+    function searchMovies(keyword) {
         showPreloader();
         const keywordLowerCase = keyword.toLowerCase();
         const result = [];
@@ -158,10 +180,7 @@ function App() {
                 setIsNoResult(false);
                 setIsBtnHidden(false)
                 setSortedMovies(result);
-                localStorage.setItem('keywordOfSearch', JSON.stringify(keyword));
-                localStorage.setItem('searchMoviesResult', JSON.stringify(result));
-            }
-            else if (result.length < 1) {
+            } else if (result.length < 1) {
                 setIsNoResult(true);
                 setSortedMovies([]);
             }
@@ -181,10 +200,7 @@ function App() {
                 setIsNoResult(false);
                 setIsBtnHidden(false)
                 setUserSavedMovies(result);
-                localStorage.setItem('keywordOfSearchInSaved', JSON.stringify(keyword));
-                localStorage.setItem('searchInSavedMoviesResult', JSON.stringify(result));
-            }
-            else if (result.length < 1) {
+            } else if (result.length < 1) {
                 setIsNoResult(true);
                 setUserSavedMovies([]);
             }
@@ -192,15 +208,17 @@ function App() {
     }
 
     function saveMovie(movie) {
-            mainApi.saveMovie(movie)
-                .then((newSavedMovie) => {
-                    setUserSavedMovies([...userSavedMovies, newSavedMovie]);
-                    setIsSaved(true);
-                })
-                .catch(err => console.log(`Ошибка: ${err.message}`))
+        mainApi.saveMovie(movie)
+            .then((newSavedMovie) => {
+                setUserSavedMovies([...userSavedMovies, newSavedMovie]);
+                localStorage.setItem('savedMovies', JSON.stringify(userSavedMovies));
+            })
+            .catch((err) => {
+                console.log(`Ошибка при сохранении фильма: ${err.message}`)
+            });
     }
 
-    function deleteMovie (movie) {
+    function deleteMovie(movie) {
         const movieId = movie.id || movie.movieId;
         const selectedMovie = userSavedMovies.find((item) => item.movieId === movieId);
         mainApi.deleteMovie({_id: selectedMovie._id})
@@ -212,13 +230,21 @@ function App() {
                     setUserSavedMovies(newMoviesList);
                 }
             })
-            .catch((err) => console.log(`При удалении фильма: ${err}`));
+            .catch((err) => {
+                console.log(`При удалении фильма: ${err}`)
+            });
     }
 
+    function movieWasSaved(movie) {
+        return userSavedMovies.includes((savedMovie) => savedMovie.id === movie.id);
+    }
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
             <div className="app">
+                {currentPath === "/" && !loggedIn && <Header
+                    onMenuClick={handleAccountMenuClick}
+                    loggedIn={loggedIn}/>}
                 {loggedIn && <Header
                     onMenuClick={handleAccountMenuClick}
                     loggedIn={loggedIn}/>}
@@ -239,7 +265,7 @@ function App() {
                         loggedIn={loggedIn}
                         isLoading={isLoading}
                         component={Movies}
-                        movies={ filterShortMovies(sortedMovies) }
+                        movies={filterShortMovies(sortedMovies)}
                         onSearch={searchMovies}
                         onFilter={handleCheckBox}
                         isShortMovie={shortMovie}
@@ -247,7 +273,7 @@ function App() {
                         onDelete={deleteMovie}
                         isNoResult={isNoResult}
                         isBtnHidden={isBtnHidden}
-                        isSaved={isSaved}
+                        movieWasSaved={movieWasSaved}
                     />
                     <ProtectedRoute
                         path="/saved-movies"
@@ -256,18 +282,21 @@ function App() {
                         onSearch={searchSavedMovies}
                         isNoResult={isNoResult}
                         isLoading={isLoading}
-                        movies={userSavedMovies}
+                        movies={filterShortMovies(userSavedMovies)}
+                        onFilter={handleCheckBox}
+                        isShortMovie={shortMovie}
                         onDelete={deleteMovie}
+                        movieWasSaved={movieWasSaved}
                     />
                     <ProtectedRoute
                         path="/profile"
                         loggedIn={loggedIn}
                         component={Profile}
+                        onSignOut={signOut}
                         onEditProfile={handleUpdateProfile}/>
-                    {loggedIn &&
                     <Route path="/*">
-                         <NotFoundWindow/>
-                    </Route>}
+                        <NotFoundWindow/>
+                    </Route>
                 </Switch>
                 {loggedIn && <Footer/>}
                 {loggedIn &&
