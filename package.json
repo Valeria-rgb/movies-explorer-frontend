@@ -18,6 +18,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy": "npm run build && scp -r ./build/* diploma@178.154.205.113:/home/diploma/frontend"
+
+
 },
   "eslintConfig": {
     "extends": [
