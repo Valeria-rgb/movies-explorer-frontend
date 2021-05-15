@@ -2,7 +2,7 @@ import React from "react";
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import '../Profile/Profile.css';
 
-function Profile({ onEditProfile, onSignOut }) {
+function Profile({ onEditProfile, onSignOut, successUpdate }) {
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [nameError, setNameError] = React.useState("");
@@ -79,6 +79,7 @@ function Profile({ onEditProfile, onSignOut }) {
                            onChange={handleChangeEmail} required/>
                 </div>
                 <span className='auth__error profile__error'>{emailError}</span>
+                {successUpdate && <span className='profile__success-edit'>Профиль успешно изменён &#128521;</span>}
                 <button className={`profile__button ${
                     !formValid ? 'profile__button_disabled' : ''}`}
                         type='submit'

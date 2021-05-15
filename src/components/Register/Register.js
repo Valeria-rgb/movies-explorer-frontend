@@ -2,8 +2,9 @@ import React from "react";
 import {Link} from "react-router-dom";
 import '../Register/Register.css'
 import icon from "../../images/student__icon.svg";
+// import {conflictErrorText} from "../../utils/constants";
 
-function Register( { onRegister }) {
+function Register( { onRegister, isResError, isMessage }) {
     const [name, setName] = React.useState("");
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -98,6 +99,7 @@ function Register( { onRegister }) {
                            onChange={handleChangePassword}
                            required/>
                     <span className='auth__error'>{passwordError}</span>
+                    {isResError && <span>{isMessage}</span>}
                     <button className={`auth__submit-button ${
                         !formValid ? 'auth__submit-button_disabled' : ''}`}
                             type='submit'

@@ -15,7 +15,8 @@ import AccountMenu from '../AccountMenu/AccountMenu';
 import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
 import auth from '../../utils/auth';
-import {CurrentUserContext} from '../../contexts/CurrentUserContext';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import {conflictErrorText, unauthorizedErrorText, serverErrorText} from '../../utils/constants';
 
 function App() {
     const location = useLocation();
@@ -27,6 +28,9 @@ function App() {
     const [isLoading, setIsLoading] = React.useState(false);
     const [isNoResult, setIsNoResult] = React.useState(false);
     const [isBtnHidden, setIsBtnHidden] = React.useState(false);
+    const [isResError, setResError] = React.useState(false);
+    const [successUpdate, setSuccessUpdate] = React.useState(false);
+    const [isMessage, setMessage] = React.useState("");
     const [movies, setMovies] = React.useState([]);
     const [sortedMovies, setSortedMovies] = React.useState([]);
     const [userSavedMovies, setUserSavedMovies] = React.useState([]);
@@ -106,13 +110,24 @@ function App() {
         auth.signUp(name, email, password)
             .then((data) => {
                 if (data) {
-                    setCurrentUser({...currentUser, ...data})
+                    // setCurrentUser({...currentUser, ...data});
+                    // setLoggedIn(true);
+                    setResError(false);
+                    setMessage('');
                     history.push('/signin');
                 }
             })
             .catch((err) => {
-                console.log(`Ошибка при регистрации: ${err.message}`)
-            });
+                setResError(true);
+                console.log(`Ошибка при регистрации: ${err}`);
+                if (err.status === 409) {
+                    setMessage(conflictErrorText);
+                } else if (err.status === 500) {
+                    setMessage(serverErrorText);
+                } else {
+                    setMessage('При регистрации произошла ошибка')
+                }
+            })
     }
 
     function handleLogIn(email, password) {
@@ -141,7 +156,7 @@ function App() {
         mainApi.changeUserInfo(data)
             .then(() => {
                 setCurrentUser({...currentUser, ...data});
-                history.push("/movies");
+                setSuccessUpdate(true);
             })
             .catch((err) => {
                 console.log(`Ошибка при редактировании профиля: ${err.message}`)
@@ -251,7 +266,9 @@ function App() {
                 <Switch>
                     <Route path="/signup">
                         <Register
-                            onRegister={handleRegister}/>
+                            onRegister={handleRegister}
+                            isError={isResError}
+                            isMessage={isMessage}/>
                     </Route>
                     <Route path="/signin">
                         <Login
@@ -292,11 +309,12 @@ function App() {
                         path="/profile"
                         loggedIn={loggedIn}
                         component={Profile}
+                        successUpdate={successUpdate}
                         onSignOut={signOut}
                         onEditProfile={handleUpdateProfile}/>
-                    <Route path="/*">
+                    {loggedIn && <Route path="/*">
                         <NotFoundWindow/>
-                    </Route>
+                    </Route>}
                 </Switch>
                 {loggedIn && <Footer/>}
                 {loggedIn &&

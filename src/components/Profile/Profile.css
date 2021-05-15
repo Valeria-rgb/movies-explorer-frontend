@@ -124,6 +124,19 @@
   }
 }
 
+@media screen and (min-width: 300px) {
+  .profile__success-edit {
+    text-align: center;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #ff4062;
+    margin-top: 20px;
+  }
+}
+
+
 @media screen and (min-width: 768px) {
   .profile__button {
     font-size: 13px;
