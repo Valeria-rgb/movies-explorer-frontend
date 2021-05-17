@@ -2,8 +2,14 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import MoviesCard from '../MoviesCard/MoviesCard';
 import './MoviesCardList.css';
+import {
+    moreMoviesToLoadWide, moreMoviesToLoadMedium,
+    moviesAmountS, moviesAmountM,
+    moviesAmountL, desktopWidth,
+    mobileWidth, oldSchoolMobileWidth,
+} from '../../utils/constants'
 
-function MoviesCardList({movies, isBtnHidden, onSave, onDelete, movieWasSaved}) {
+function MoviesCardList({movies, isBtnHidden, onSave, onDelete, movieWasSaved, isSavedMovies}) {
     const location = useLocation();
     const currentPath = location.pathname;
     const [amount, setAmount] = React.useState(12);
@@ -25,15 +31,15 @@ function MoviesCardList({movies, isBtnHidden, onSave, onDelete, movieWasSaved}) 
     }, []);
 
     React.useEffect(() => {
-        if (getWidth() > 1200) {
-            setAmount(12);
-            setLoadMore(3);
-        } else if (getWidth() <= 1200 && getWidth() > 480) {
-            setAmount(8);
-            setLoadMore(2);
-        } else if (getWidth() <= 480 && getWidth() > 320) {
-            setAmount(5);
-            setLoadMore(2);
+        if (getWidth() > desktopWidth) {
+            setAmount(moviesAmountL);
+            setLoadMore(moreMoviesToLoadWide);
+        } else if (getWidth() <= desktopWidth && getWidth() > mobileWidth) {
+            setAmount(moviesAmountM);
+            setLoadMore(moreMoviesToLoadMedium);
+        } else if (getWidth() <= mobileWidth && getWidth() > oldSchoolMobileWidth) {
+            setAmount(moviesAmountS);
+            setLoadMore(moreMoviesToLoadMedium);
         }
     }, [size]);
 
@@ -43,19 +49,34 @@ function MoviesCardList({movies, isBtnHidden, onSave, onDelete, movieWasSaved}) 
 
     return(
         <section className='movies-card-list'>
-            <ul className='movies-card-list__elements'>
+            {currentPath === "/saved-movies" && <ul className='movies-card-list__elements'>
                 {movies.slice(0, amount)
-                    .map((movie) => (
-                    <MoviesCard
+                    .map((movie,id) => (
+                        <MoviesCard
+                        key={movie.movieId}
+                        id={id}
                         movie={movie}
                         name={movie.nameRU}
+                        duration={movie.duration}
+                        onSave={onSave}
+                        onDelete={onDelete}
+                        isSavedMovies={isSavedMovies}/>
+                ))}
+            </ul>}
+            {currentPath === "/movies" && <ul className='movies-card-list__elements'>
+                {movies.slice(0, amount)
+                    .map((movie,id) => (
+                        <MoviesCard
                         key={movie.id}
+                        id={id}
+                        movie={movie}
+                        name={movie.nameRU}
                         duration={movie.duration}
                         onSave={onSave}
                         onDelete={onDelete}
                         movieWasSaved={movieWasSaved}/>
                 ))}
-            </ul>
+            </ul>}
             {currentPath === "/movies" && !isBtnHidden && (movies.length - amount >= 2) &&
             (<button className='movies-card-list__load-button' onClick={loadMoreBtn}>Ещё</button>)}
             {currentPath === "/saved-movies" && (

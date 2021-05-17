@@ -119,6 +119,18 @@
 }
 
 @media screen and (min-width: 300px) {
+  .auth__res-error {
+    text-align: left;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 18px;
+    color: #ff4062;
+    margin-top: 20px;
+  }
+}
+
+@media screen and (min-width: 300px) {
   .auth__submit-button {
     width: 260px;
     height: 45px;

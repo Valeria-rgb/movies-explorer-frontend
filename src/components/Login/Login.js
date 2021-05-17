@@ -5,7 +5,7 @@ import '../Login/Login.css'
 
 import icon from "../../images/student__icon.svg";
 
-function Login({ onLogin}) {
+function Login({ onLogin, isResError, isMessage }) {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [emailError, setEmailError] = React.useState("");
@@ -39,6 +39,7 @@ function Login({ onLogin}) {
     function handleSubmit(e) {
         e.preventDefault();
         onLogin(email, password);
+
     }
 
     React.useEffect(() => {
@@ -73,6 +74,7 @@ function Login({ onLogin}) {
                            value={password}
                            onChange={handleChangePassword}/>
                     <span className='auth__error'>{passwordError}</span>
+                    {isResError && <span className='auth__res-error'>{isMessage}</span>}
                     <button className={`auth__submit-button ${
                         !formValid ? 'auth__submit-button_disabled' : ''}`}
                             type='submit'

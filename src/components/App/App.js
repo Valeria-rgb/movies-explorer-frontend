@@ -16,7 +16,7 @@ import mainApi from '../../utils/MainApi';
 import moviesApi from '../../utils/MoviesApi';
 import auth from '../../utils/auth';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-import {conflictErrorText, unauthorizedErrorText, serverErrorText} from '../../utils/constants';
+import {shortMovieDuration, conflictErrorText, unauthorizedErrorText, serverErrorText, uncorrectTokenText, badRequestErrorText} from '../../utils/constants';
 
 function App() {
     const location = useLocation();
@@ -30,7 +30,7 @@ function App() {
     const [isBtnHidden, setIsBtnHidden] = React.useState(false);
     const [isResError, setResError] = React.useState(false);
     const [successUpdate, setSuccessUpdate] = React.useState(false);
-    const [isMessage, setMessage] = React.useState("");
+    const [isMessage, setMessage] = React.useState('');
     const [movies, setMovies] = React.useState([]);
     const [sortedMovies, setSortedMovies] = React.useState([]);
     const [userSavedMovies, setUserSavedMovies] = React.useState([]);
@@ -39,40 +39,56 @@ function App() {
     React.useEffect(() => {
         const jwt = localStorage.getItem('jwt');
         if (jwt) {
-            auth.getToken(jwt)
-                .then(() => {
-                    setLoggedIn(true);
-                    history.push('/movies');
+                auth.getToken(jwt)
+                .then((data) => {
+                    if (data) {
+                        setLoggedIn(true);
+                        tokenCheck();
+                        setCurrentUser(data);
+                        history.push(currentPath);
+                        const movieSearchResult = JSON.parse(localStorage.getItem('movieSearchResult'));
+                            if (movieSearchResult) {
+                                setSortedMovies(movieSearchResult);
+                            }
+                    }
                 })
-                .catch((err) => console.log(`Упс!: ${err}`))
+                .catch((err) => {
+                    console.log(`Переданный токен некорректен или просрочек: ${err}`);
+                    localStorage.removeItem('jwt');
+                    history.push('/');
+                });
         }
-    }, [history]);
-
-
-    React.useEffect(() => {
-        moviesApi.getMovies()
-            .then((movies) => {
-                localStorage.setItem('movies', movies);
-                setMovies(movies);
-                setIsBtnHidden(true);
-            })
-            .catch((err) => {
-                console.log(`Ошибка при загрузке фильмов: ${err.message}`)
-            });
     }, []);
 
     React.useEffect(() => {
-        mainApi.getSavedMovies()
-            .then(() => {
-                const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-                if (savedMovies) {
-                    setUserSavedMovies(savedMovies);
-                }
-            })
-            .catch((err) => {
-                console.log(`Ошибка при загрузке сохраненных фильмов: ${err.message}`)
-            });
-    }, []);
+        const jwt = localStorage.getItem('jwt');
+        if (jwt) {
+            moviesApi.getMovies()
+                .then((movies) => {
+                    localStorage.setItem('movies', movies);
+                    setMovies(movies);
+                    setIsBtnHidden(true);
+                })
+                .catch((err) => {
+                    console.log(`Ошибка при загрузке фильмов: ${err}`)
+                });
+        }}, []);
+
+    React.useEffect(() => {
+        const jwt = localStorage.getItem('jwt');
+        if (jwt) {
+            mainApi.getSavedMovies()
+                .then(() => {
+                    const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+                    if (savedMovies) {
+                        savedMovies.filter((item) => item.owner === currentUser._id);
+                        setUserSavedMovies(savedMovies);
+                    }
+                })
+                .catch((err) => {
+                    console.log(`Ошибка при загрузке сохраненных фильмов: ${err}`)
+                });
+        }}, []);
 
     React.useEffect(() => {
         mainApi.getUserInfo()
@@ -89,43 +105,41 @@ function App() {
         setIsAccountMenuOpen(false);
     }
 
+
     function tokenCheck() {
-        const jwt = localStorage.getItem("jwt");
-        if (jwt) {
-            setLoggedIn(true);
-            auth.getToken(jwt)
-                .then((data) => {
+        const jwt = localStorage.getItem('jwt');
+        auth.getToken(jwt)
+            .then((data) => {
                     if (data) {
-                        setCurrentUser(data)
-                        setLoggedIn(true);
+                        setCurrentUser(data);
                     }
                 })
                 .catch((err) => {
-                    console.log(`Ошибка при проверке токена: ${err.message}`)
+                    console.log(`Ошибка при проверке токена: ${err}`)
+                    localStorage.removeItem('jwt');
+                    setResError(true);
+                    setMessage(uncorrectTokenText);
                 });
         }
-    }
 
     function handleRegister(name, email, password) {
         auth.signUp(name, email, password)
             .then((data) => {
                 if (data) {
-                    // setCurrentUser({...currentUser, ...data});
-                    // setLoggedIn(true);
                     setResError(false);
                     setMessage('');
                     history.push('/signin');
                 }
             })
             .catch((err) => {
+                console.log(`При регистрации: ${err}`);
                 setResError(true);
-                console.log(`Ошибка при регистрации: ${err}`);
-                if (err.status === 409) {
+                if (err === 'Произошла ошибка: 409') {
                     setMessage(conflictErrorText);
-                } else if (err.status === 500) {
+                } else if (err === 'Произошла ошибка: 500') {
                     setMessage(serverErrorText);
                 } else {
-                    setMessage('При регистрации произошла ошибка')
+                    setMessage('При регистрации произошла ошибка!')
                 }
             })
     }
@@ -133,14 +147,30 @@ function App() {
     function handleLogIn(email, password) {
         auth.signIn(email, password)
             .then((data) => {
-                if (data.token) {
+                if (data === undefined) {
+                    setResError(true);
+                    setMessage(unauthorizedErrorText);
+                } else if (data.token) {
+                    localStorage.setItem('jwt', data.token);
                     setLoggedIn(true);
                     tokenCheck();
+                    setResError(false);
+                    setMessage('');
                     history.push('/movies');
+                    setSortedMovies([]);
+                    setUserSavedMovies([]);
                 }
             })
             .catch((err) => {
-                console.log(`Ошибка при логировании: ${err.message}`)
+                console.log(`При логировании: ${err}`)
+                setResError(true);
+                 if (err === 'Произошла ошибка: 500') {
+                    setMessage(serverErrorText);
+                } else if (err === 'Произошла ошибка: 400') {
+                    setMessage(badRequestErrorText);
+                } else {
+                    setMessage('При входе произошла ошибка!')
+                }
             });
     }
 
@@ -148,6 +178,8 @@ function App() {
         localStorage.removeItem('jwt');
         localStorage.removeItem('movies');
         localStorage.removeItem('savedMovies');
+        localStorage.removeItem('movieSearchResult');
+        localStorage.clear();
         setLoggedIn(false);
         history.push('/');
     }
@@ -159,7 +191,7 @@ function App() {
                 setSuccessUpdate(true);
             })
             .catch((err) => {
-                console.log(`Ошибка при редактировании профиля: ${err.message}`)
+                console.log(`Ошибка при редактировании профиля: ${err}`)
             });
     }
 
@@ -177,7 +209,7 @@ function App() {
     function filterShortMovies(sortedMovies) {
         if (sortedMovies.length !== 0 || sortedMovies !== 'undefined') {
             return sortedMovies.filter((movie) =>
-                shortMovie ? movie.duration <= 40 : true
+                shortMovie ? movie.duration <= shortMovieDuration : true
             )
         }
     }
@@ -194,6 +226,7 @@ function App() {
                 result.push(item);
                 setIsNoResult(false);
                 setIsBtnHidden(false)
+                localStorage.setItem('movieSearchResult', JSON.stringify(result));
                 setSortedMovies(result);
             } else if (result.length < 1) {
                 setIsNoResult(true);
@@ -215,6 +248,7 @@ function App() {
                 setIsNoResult(false);
                 setIsBtnHidden(false)
                 setUserSavedMovies(result);
+                setUserSavedMovies(result);
             } else if (result.length < 1) {
                 setIsNoResult(true);
                 setUserSavedMovies([]);
@@ -225,11 +259,11 @@ function App() {
     function saveMovie(movie) {
         mainApi.saveMovie(movie)
             .then((newSavedMovie) => {
-                setUserSavedMovies([...userSavedMovies, newSavedMovie]);
-                localStorage.setItem('savedMovies', JSON.stringify(userSavedMovies));
+                localStorage.setItem('savedMovies', JSON.stringify((newSavedMovie = [newSavedMovie, ...userSavedMovies])));
+                setUserSavedMovies(newSavedMovie);
             })
             .catch((err) => {
-                console.log(`Ошибка при сохранении фильма: ${err.message}`)
+                console.log(`Ошибка при сохранении фильма: ${err}`)
             });
     }
 
@@ -239,7 +273,7 @@ function App() {
         mainApi.deleteMovie({_id: selectedMovie._id})
             .then((deletedMovie) => {
                 if (!deletedMovie) {
-                    throw new Error("При удалении фильма произошла ошибка");
+                    throw new Error('При удалении фильма произошла ошибка');
                 } else {
                     const newMoviesList = userSavedMovies.filter((c) => c.movieId !== movieId);
                     setUserSavedMovies(newMoviesList);
@@ -251,8 +285,14 @@ function App() {
     }
 
     function movieWasSaved(movie) {
-        return userSavedMovies.includes((savedMovie) => savedMovie.id === movie.id);
+        return (movie.isSaved = userSavedMovies.some(
+            (savedMovie) => savedMovie.movieId === movie.id
+        ));
     }
+
+    React.useEffect(() => {
+        movieWasSaved(sortedMovies);
+    }, [userSavedMovies]);
 
     return (
         <CurrentUserContext.Provider value={currentUser}>
@@ -267,12 +307,14 @@ function App() {
                     <Route path="/signup">
                         <Register
                             onRegister={handleRegister}
-                            isError={isResError}
+                            isResError={isResError}
                             isMessage={isMessage}/>
                     </Route>
                     <Route path="/signin">
                         <Login
-                            onLogin={handleLogIn}/>
+                            onLogin={handleLogIn}
+                            isResError={isResError}
+                            isMessage={isMessage}/>
                     </Route>
                     <Route exact path="/">
                         <Main/>
@@ -303,7 +345,7 @@ function App() {
                         onFilter={handleCheckBox}
                         isShortMovie={shortMovie}
                         onDelete={deleteMovie}
-                        movieWasSaved={movieWasSaved}
+                        isSavedMovies={true}
                     />
                     <ProtectedRoute
                         path="/profile"
@@ -312,12 +354,11 @@ function App() {
                         successUpdate={successUpdate}
                         onSignOut={signOut}
                         onEditProfile={handleUpdateProfile}/>
-                    {loggedIn && <Route path="/*">
+                    <Route path="/*">
                         <NotFoundWindow/>
-                    </Route>}
+                    </Route>
                 </Switch>
                 {loggedIn && <Footer/>}
-                {loggedIn &&
                 <AccountMenu
                     isOpen={isAccountMenuOpen}
                     onClose={closeAccountMenu}/>}

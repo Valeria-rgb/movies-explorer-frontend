@@ -3,7 +3,7 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Preloader from "../Preloader/Preloader";
 import React from "react";
 
-function SavedMovies({movies, onDelete, onSearch, isNoResult, isLoading, onFilter, isShortMovie, movieWasSaved }) {
+function SavedMovies({movies, onDelete, onSearch, isNoResult, isLoading, onFilter, isShortMovie, movieWasSaved, isSavedMovies }) {
     return(
         <section className="movies">
             <SearchForm
@@ -16,8 +16,7 @@ function SavedMovies({movies, onDelete, onSearch, isNoResult, isLoading, onFilte
             <MoviesCardList
                 movies={movies}
                 onDelete={onDelete}
-                movieWasSaved={movieWasSaved}
-            />
+                isSavedMovies={isSavedMovies}/>
         </section>
     );
 }

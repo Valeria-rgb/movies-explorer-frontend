@@ -7,10 +7,10 @@ import image from "../../images/card__image.png";
 import delete_icon from "../../images/delete__icon.svg";
 import { baseImageURL } from '../../utils/constants';
 
-function MoviesCard({movie, onSave, onDelete, movieWasSaved}) {
+function MoviesCard({movie, onSave, onDelete, movieWasSaved, isSavedMovies}) {
     const location = useLocation();
     const currentPath = location.pathname;
-    const [isBtnSave, setIsBtnSave] = React.useState(movieWasSaved(movie));
+    const isBtnSave = !isSavedMovies && movieWasSaved(movie);
 
     function getImage() {
         if (movie.image === null) {
@@ -30,16 +30,15 @@ function MoviesCard({movie, onSave, onDelete, movieWasSaved}) {
             image: movie.image ? baseImageURL + movie.image.url : image,
             trailer: movie.trailerLink,
             nameRU: movie.nameRU,
-            nameEN: movie.nameEN,
+            nameEN: movie.nameEN ? movie.nameEN : 'пустое поле',
             thumbnail: movie.image && movie.image.formats.thumbnail ? baseImageURL + movie.image.formats.thumbnail.url : image,
             id: movie.id,
+            isSaved: movie.isSaved
         })
-        setIsBtnSave(true);
     }
 
     function deleteMovie() {
         onDelete(movie)
-        setIsBtnSave(false);
     }
 
     return(
