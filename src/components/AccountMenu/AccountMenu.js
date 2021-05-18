@@ -18,7 +18,7 @@ function AccountMenu({ isOpen, onClose }) {
                 <NavLink to='/saved-movies' className={currentPath === '/saved-movies' ? 'account-menu__link account-menu__link_active' : 'account-menu__link'} onClick={onClose}>
                     Сохраненные фильмы</NavLink>
                 <div className='header__navigation account-menu__navigation'>
-                    <NavLink to='/profile' className='header__link header__link_account'>
+                    <NavLink to='/profile' className='header__link header__link_account' onClick={onClose}>
                         Аккаунт</NavLink>
                     <div className='account-menu__account-box'>
                         <img className='header__account-icon' src={account} alt='Иконка аккаунта'/>
