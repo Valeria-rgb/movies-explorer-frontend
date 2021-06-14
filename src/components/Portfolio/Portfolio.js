@@ -7,12 +7,12 @@ function Portfolio() {
     return(
         <section className='portfolio'>
             <h5 className='portfolio__header'>Портфолио</h5>
-            <div className='portfolio__item'>
-                <h4 className='portfolio__item-name'>Статичный сайт</h4>
-                <a href='https://github.com/Valeria-rgb/russian-travel' rel='noreferrer' target='_blank'>
-                    <img className='portfolio__item-link' src={link} alt='Декоративная стрелка'/>
-                </a>
-            </div>
+            {/*<div className='portfolio__item'>*/}
+            {/*    <h4 className='portfolio__item-name'>Статичный сайт</h4>*/}
+            {/*    <a href='https://github.com/Valeria-rgb/russian-travel' rel='noreferrer' target='_blank'>*/}
+            {/*        <img className='portfolio__item-link' src={link} alt='Декоративная стрелка'/>*/}
+            {/*    </a>*/}
+            {/*</div>*/}
                 <img className='portfolio__line' src={line} alt='Декоративная линия'/>
             <div className='portfolio__item'>
                 <h4 className='portfolio__item-name'>Адаптивный сайт</h4>
@@ -23,7 +23,7 @@ function Portfolio() {
             <img className='portfolio__line' src={line} alt='Декоративная линия'/>
             <div className='portfolio__item'>
                  <h4 className='portfolio__item-name'>Одностраничное приложение</h4>
-                <a href='https://valeria-rgb.students.nomoredomains.icu' rel='noreferrer' target='_blank'>
+                <a href='https://github.com/Valeria-rgb/react-mesto-api-full' rel='noreferrer' target='_blank'>
                     <img className='portfolio__item-link' src={link} alt='Декоративная стрелка'/>
                 </a>
              </div>
